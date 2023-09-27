@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "13:00"
+      timezone: "Asia/Kolkata"
+    assignees:
+      - "yvipinaxioned"
+      - "jkevinaxioned"
+      - "snirajaxioned"
+      - "ssameeraxioned"
+    reviewers:
+      - "yvipinaxioned"
+      - "jkevinaxioned"
+      - "snirajaxioned"
+      - "ssameeraxioned"
+    labels:
+      - "update"
+    target-branch: "main"
