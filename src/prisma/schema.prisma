@@ -11,13 +11,26 @@ enum UserRole {
   SUPER_ADMIN
   VENDOR
   VENDOR_USER
+  DRIVER
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  name        String
-  email       String
-  role        UserRole   @default(VENDOR)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String
+  role      UserRole   @default(VENDOR)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Document  Document[]
+}
+
+model Document {
+  id        Int      @id @default(autoincrement())
+  type      String
+  filename  String
+  url       String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
 }

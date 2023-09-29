@@ -48,14 +48,14 @@ The node-starter repo comes bundled with an express server, swagger documentatio
 ## Installation Guide
 
 **Nodejs:** [Download](https://nodejs.org/en/download/)
-_version:-_ `>=16.x.x`
+_version:-_ `>=18.17.1`
 
 ## Develpment Setup
 
 1. Clone the repository and install dependencies
 
    ```bash
-   git clone https://github.com/axioned/axioned-node-starter.git
+   git clone https://github.com/vipiny35/jeeth-api.git
    ```
 
 2. Install node dependencies
@@ -93,3 +93,19 @@ _version:-_ `>=16.x.x`
    ```bash
     npm run start
     ```
+
+## Prisma
+
+## Prisma Migrate
+
+### Create Migration
+
+```bash
+npx prisma migrate dev --name "migration name"
+```
+
+### Apply Migration
+
+```bash
+npx prisma migrate deploy
+```
