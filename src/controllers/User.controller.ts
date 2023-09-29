@@ -18,7 +18,7 @@ export const getUsers: RequestHandler = async (_req, res, next) => {
 export const getUser: RequestHandler = async (req, res, next) => {
   try {
     
-    const user = await UserService.getUser(req.params.id);
+    const user = await UserService.getUser(+req.params.id);
 
     return res.status(200).json({
       result: 'success',
