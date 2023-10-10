@@ -15,13 +15,15 @@ enum UserRole {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  role      UserRole   @default(VENDOR)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Document  Document[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  role          UserRole       @default(VENDOR)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Document      Document[]
+  VendorClient  VendorClient[]
+  DriverProfile DriverProfile?
 }
 
 model Document {
@@ -29,8 +31,21 @@ model Document {
   type      String
   filename  String
   url       String
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    Int
+}
+
+model VendorClient {
+  id     Int    @id @default(autoincrement())
+  name   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model DriverProfile {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
 }
