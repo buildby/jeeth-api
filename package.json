@@ -27,12 +27,19 @@
   "dependencies": {
     "@ngneat/falso": "^7.1.1",
     "@prisma/client": "^5.4.2",
+    "@types/jsonwebtoken": "^9.0.3",
+    "axios": "^1.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jest-mock-extended": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "nodejs": "^0.0.0",
+    "nodemon": "^3.0.1",
     "prisma": "^5.4.2",
+    "sendotp": "^1.2.9",
     "swagger-ui-express": "^5.0.0",
+    "ts-dotenv": "^0.9.1",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
