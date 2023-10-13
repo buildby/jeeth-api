@@ -2,7 +2,7 @@ import "dotenv/config";
 import app from "./app";
 import { Routes } from "./routes/routes";
 
-const PORT: number = process.env.PORT as unknown as number || 4000;
+const PORT: number = process.env.PORT as unknown as number || 3000;
 
 // run the server
 app.listen(PORT, (): void => console.log(`API running on http://localhost:${PORT}
