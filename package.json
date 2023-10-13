@@ -15,7 +15,8 @@
     "start": "node -r dotenv/config dist/index.js",
     "test": "jest -i --verbose",
     "test:coverage": "jest --coverage --verbose",
-    "test:integration": "jest -i --verbose -c jest.integration.config.js"
+    "test:integration": "jest -i --verbose -c jest.integration.config.js",
+    "studio": "prisma studio"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma",
