@@ -4,10 +4,10 @@ import "dotenv/config";
 
 const axios = require("axios").default;
 const SendOtp = require("sendotp");
-const templateId = '619200684b4d6d1128154f35';
-const authKey = '341505ArKU4rb1610a478bP1';
-// const templateId = process.env.MSG91TEMPLATEID;
-// const authKey = process.env.MSG91AUTHKEY;
+// const templateId = '619200684b4d6d1128154f35';
+// const authKey = '341505ArKU4rb1610a478bP1';
+const templateId = process.env.MSG91TEMPLATEID;
+const authKey = process.env.MSG91AUTHKEY;
 
 export const sendOTPtoUser = async (
   req: Request,
