@@ -11,7 +11,7 @@
     "build:dev": "tsc --watch --preserveWatchOutput --noEmit",
     "dev": "nodemon -r dotenv/config src/index.ts",
     "prepare": "husky install",
-    "prestart": "prisma generate && tsc",
+    "prestart": "prisma generate && npm run build",
     "start": "node -r dotenv/config dist/index.js",
     "test": "jest -i --verbose",
     "test:coverage": "jest --coverage --verbose",
