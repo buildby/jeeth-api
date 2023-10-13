@@ -8,15 +8,9 @@ updates:
       time: "13:00"
       timezone: "Asia/Kolkata"
     assignees:
-      - "yvipinaxioned"
-      - "jkevinaxioned"
-      - "snirajaxioned"
-      - "ssameeraxioned"
+      - "vipiny35"
     reviewers:
-      - "yvipinaxioned"
-      - "jkevinaxioned"
-      - "snirajaxioned"
-      - "ssameeraxioned"
+      - "vipiny35"
     labels:
       - "update"
     target-branch: "main"
