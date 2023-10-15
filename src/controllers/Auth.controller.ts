@@ -1,7 +1,25 @@
 import { RequestHandler } from "express";
 import * as MSG91Service from "../services/Msg91.service";
+import * as AuthService from "../services/Auth.service";
 
-export const sendOTPtoUser: RequestHandler = async (req, res, next) => {
+export const login: RequestHandler = async (req, res, next) => {
+  try {
+    const accessToken = AuthService.createAccessToken(1);
+    return res.status(200).send({
+      result: 'success',
+      data: {
+        accessToken,
+        userId: 1,
+        message: 'dummy-access-token'
+      }
+    });
+  }
+  catch (error) {
+    next(error);
+  }
+};
+
+export const sendOtp: RequestHandler = async (req, res, next) => {
   try {
     const { phoneNumber, countryCode = "+91" } = req.body;
 
@@ -32,7 +50,7 @@ export const sendOTPtoUser: RequestHandler = async (req, res, next) => {
 
 };
 
-export const resendOTPtoUser: RequestHandler = async (req, res, next) => {
+export const resendOtp: RequestHandler = async (req, res, next) => {
   try {
     const { phoneNumber, type = "text", countryCode = "+91" } = req.body;
 
@@ -62,7 +80,7 @@ export const resendOTPtoUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const verifyOTPofUser: RequestHandler = async (req, res, next) => {
+export const verifyOtp: RequestHandler = async (req, res, next) => {
   try {
 
     const { phoneNumber, otp, countryCode = "+91" } = req.body;

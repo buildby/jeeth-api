@@ -3,6 +3,7 @@ import * as AuthController from "../controllers/Auth.controller";
 
 export const AuthRoutes: Router = express.Router();
 
-AuthRoutes.post("/send-otp", AuthController.sendOTPtoUser);
-AuthRoutes.post("/resend-otp", AuthController.resendOTPtoUser);
-AuthRoutes.post("/verify-otp", AuthController.verifyOTPofUser);
+AuthRoutes.post("/login", AuthController.login);
+AuthRoutes.post("/send-otp", AuthController.sendOtp);
+AuthRoutes.post("/resend-otp", AuthController.resendOtp);
+AuthRoutes.post("/verify-otp", AuthController.verifyOtp);
