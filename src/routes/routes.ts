@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import { UserRoutes } from "./User.route";
 import { DocumentRoutes } from "./Document.route";
 import { VendorClientRoutes } from "./VendorClient.route";
-import { AuthRoutes } from "../auth/auth.routes";
+import { AuthRoutes } from "./Auth.routes";
 
 export const Routes: Router = express.Router();
 
