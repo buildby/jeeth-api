@@ -10,42 +10,103 @@ datasource db {
 enum UserRole {
   SUPER_ADMIN
   VENDOR
-  VENDOR_USER
   DRIVER
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  name          String
-  email         String         @unique
-  role          UserRole       @default(VENDOR)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  Document      Document[]
-  VendorClient  VendorClient[]
-  DriverProfile DriverProfile?
+  id         Int      @id @default(autoincrement())
+  phone      String?  @unique
+  email      String?  @unique
+  role       UserRole @default(DRIVER)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Vendor     Vendor?
+  Driver     Driver?
 }
 
 model Document {
-  id        Int      @id @default(autoincrement())
-  type      String
-  filename  String
-  url       String
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  type       String
+  filename   String
+  url        String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  vendor_id  Int?
+  driver_id  Int?
+  Vendor     Vendor?  @relation(fields: [vendor_id], references: [id])
+  Driver     Driver?  @relation(fields: [driver_id], references: [id])
 }
 
-model VendorClient {
-  id     Int    @id @default(autoincrement())
-  name   String
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
+model Vendor {
+  id            Int             @id @default(autoincrement())
+  User          User            @relation(fields: [user_id], references: [id])
+  user_id       Int             @unique
+  name          String
+  email         String          @unique
+  phone         String          @unique
+  address       String
+  city          String
+  state         String
+  pincode       String
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  Documents     Document[]
+  ClientSites   ClientSite[]
+  MetaData      MetaData[]
+  BusinessModel BusinessModel[]
 }
 
-model DriverProfile {
-  id     Int  @id @default(autoincrement())
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique
+model Driver {
+  id         Int        @id @default(autoincrement())
+  User       User       @relation(fields: [user_id], references: [id])
+  user_id    Int        @unique
+  name       String
+  phone      String     @unique
+  email      String?
+  address    String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  Documents  Document[]
+  MetaData   MetaData[]
+}
+
+model ClientSite {
+  id            Int             @id @default(autoincrement())
+  name          String
+  Vendor        Vendor          @relation(fields: [vendor_id], references: [id])
+  vendor_id     Int
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  BusinessModel BusinessModel[]
+}
+
+model MetaData {
+  id         Int      @id @default(autoincrement())
+  key        String
+  value      String
+  vendor_id  Int?
+  driver_id  Int?
+  Vendor     Vendor?  @relation(fields: [vendor_id], references: [id])
+  Driver     Driver?  @relation(fields: [driver_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum BusinessModelType {
+  SLAB
+  KM_FARE
+  PACKAGE
+}
+
+model BusinessModel {
+  id            Int               @id @default(autoincrement())
+  name          String
+  created_at    DateTime          @default(now())
+  updated_at    DateTime          @updatedAt
+  type          BusinessModelType
+  modeldata     Json
+  vendor_id     Int
+  clientsite_id Int
+  Vendor        Vendor            @relation(fields: [vendor_id], references: [id])
+  ClientSite    ClientSite        @relation(fields: [clientsite_id], references: [id])
 }
