@@ -4,16 +4,12 @@ const MSG91_TEMPLATE_ID = process.env.MSG91_TEMPLATE_ID;
 const MSG91_AUTH_KEY = process.env.MSG91_AUTH_KEY;
 const MSG91_URL = process.env.MSG91_URL;
 
-enum MsgType {
-  text = "text",
-};
-
 export const sendOTP = async (phoneNumber: string, countryCode: string = "+91") => {
   const otpUrl = `${MSG91_URL}/otp?mobile=${countryCode}${phoneNumber}&template_id=${MSG91_TEMPLATE_ID}&authkey=${MSG91_AUTH_KEY}&otp_length=4`;
   return await axios.get(otpUrl);
 }
 
-export const resendOTP = async (phoneNumber: string, countryCode: string = "+91", type: MsgType = MsgType.text) => {
+export const resendOTP = async (phoneNumber: string, countryCode: string = "+91", type: string = "text") => {
   const retryUrl = `${MSG91_URL}/otp/retry?authkey=${MSG91_AUTH_KEY}&retrytype=${type}&mobile=${countryCode}${phoneNumber}`;
   return await axios.get(retryUrl);
 }

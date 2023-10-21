@@ -27,10 +27,24 @@ export const getDocument: RequestHandler = async (req, res, next) => {
   }
 }
 
-export const getDocumentByUserId: RequestHandler = async (req, res, next) => {
+export const getDocumentByDriverId: RequestHandler = async (req, res, next) => {
   try {
 
-    const documents = await DocumentService.getDocumentByUserId(+req.params.userId);
+    const documents = await DocumentService.getDocumentByDriverId(+req.params.driver_id);
+
+    return res.status(200).json({
+      result: 'success',
+      data: documents,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const getDocumentByVendorId: RequestHandler = async (req, res, next) => {
+  try {
+
+    const documents = await DocumentService.getDocumentByVendorId(+req.params.vendor_id);
 
     return res.status(200).json({
       result: 'success',

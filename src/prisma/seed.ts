@@ -1,22 +1,22 @@
-import { Prisma } from "@prisma/client";
-
-const { PrismaClient } = require('@prisma/client');
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const userData: Prisma.UserCreateInput = {
-    name: 'Vipin',
-    email: 'vipiny35@gmail.com',
-    Document: {
+  const userData: Prisma.DriverCreateInput = {
+    name: "John Doe",
+    address: "123 Main St",
+    phone: "123-456-7890",
+    User: {
       create: {
-        type: 'DRIVER_LICENSE',
-        filename: 'driver_license.pdf',
-        url: 'https://www.google.com',
-      },
+        phone: "123-456-7890",
+      }
     }
   }
-  await prisma.user.create({ data: userData });
+  const driver = await prisma.driver.create({
+    data: userData,
+  })
+  console.log({ driver })
 }
 
 main()

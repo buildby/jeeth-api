@@ -1,20 +1,20 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma/client";
 
-export const getVendorClients = () => prisma.vendorClient.findMany();
+export const getVendors = () => prisma.vendor.findMany();
 
-export const getVendorClient = (id: number) => prisma.vendorClient.findUniqueOrThrow({ where: { id: id } });
+export const getVendor = (id: number) => prisma.vendor.findUniqueOrThrow({ where: { id: id } });
 
-export const createVendorClient = (data: Prisma.VendorClientCreateInput) => prisma.vendorClient.create({ data });
+export const createVendor = (data: Prisma.VendorCreateInput) => prisma.vendor.create({ data });
 
-export const updateVendorClient = (id: number, data: Prisma.VendorClientUpdateInput) => prisma.vendorClient.update({ where: { id }, data });
+export const updateVendor = (id: number, data: Prisma.VendorUpdateInput) => prisma.vendor.update({ where: { id }, data });
 
-export const deleteVendorClient = (id: number) => prisma.vendorClient.delete({ where: { id } });
+export const deleteVendor = (id: number) => prisma.vendor.delete({ where: { id } });
 
-export const getVendorClientByVendorId = (vendorId: number) => {
-  return prisma.vendorClient.findMany({
+export const getVendorByVendorId = (vendor_id: number) => {
+  return prisma.vendor.findMany({
     where: {
-      userId: vendorId
+      user_id: vendor_id
     }
   })
 }
