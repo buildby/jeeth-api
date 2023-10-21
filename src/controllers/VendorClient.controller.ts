@@ -6,7 +6,7 @@ export const getVendorClientsbyVendorId: RequestHandler = async (req, res, next)
 
     const vendorId = +req.params.vendorId;
 
-    const vendorClients = await VendorClientService.getVendorClientByVendorId(vendorId);
+    const vendorClients = await VendorClientService.getVendorByVendorId(vendorId);
 
     return res.status(200).json({
       result: 'success',

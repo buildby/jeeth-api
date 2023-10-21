@@ -1,0 +1,74 @@
+{
+  "name": "Google site 1 slab #1",
+  "type": "SLAB_MODEL",
+  "site_id": 23,
+  "vendor_id": 1,
+  "slabs": [
+    {
+      "range": {
+        "min": 0,
+        "max": 20
+      },
+      "vehicle_type": {
+        "sedan": {
+          "EV": 350,
+          "Petrol": 300,
+          "Diesel": 320
+        },
+        "suv": {
+          "EV": 400,
+          "Petrol": 350,
+          "Diesel": 370
+        },
+        "mini": {
+          "EV": 250,
+          "Petrol": 200,
+          "Diesel": 220
+        }
+      }
+    },
+    {
+      "range": {
+        "min": 21,
+        "max": 40
+      },
+      "vehicle_type": {
+        "sedan": {
+          "EV": 300,
+          "Petrol": 250,
+          "Diesel": 270
+        },
+        "suv": {
+          "EV": 350,
+          "Petrol": 300,
+          "Diesel": 320
+        },
+        "mini": {
+          "EV": 200,
+          "Petrol": 150,
+          "Diesel": 170
+        }
+      }
+    }
+  ],
+  "km_fare": {
+    "sedan": {
+      "EV": 10,
+      "Petrol": 9,
+      "Diesel": 9.5
+    },
+    "suv": {
+      "EV": 12,
+      "Petrol": 11,
+      "Diesel": 11.5
+    },
+    "mini": {
+      "EV": 8,
+      "Petrol": 7,
+      "Diesel": 7.5
+    }
+  },
+  "package" : {
+    
+  }
+}

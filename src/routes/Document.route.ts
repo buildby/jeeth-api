@@ -5,7 +5,8 @@ export const DocumentRoutes: Router = Router();
 
 DocumentRoutes.get('/', DocumentController.getDocuments); 
 DocumentRoutes.get('/:id', DocumentController.getDocument);
-DocumentRoutes.get('/user/:userId', DocumentController.getDocumentByUserId);
+DocumentRoutes.get('/driver/:driver_id', DocumentController.getDocumentByDriverId);
+DocumentRoutes.get('/vendor/:vendor_id', DocumentController.getDocumentByVendorId);
 DocumentRoutes.post('/', DocumentController.createDocument);
 DocumentRoutes.patch('/:id', DocumentController.updateDocument);
 DocumentRoutes.delete('/:id', DocumentController.deleteDocument);

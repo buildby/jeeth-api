@@ -5,7 +5,9 @@ export const getDocuments = () => prisma.document.findMany();
 
 export const getDocument = (id: number) => prisma.document.findUniqueOrThrow({ where: { id: id } });
 
-export const getDocumentByUserId = (userId: number) => prisma.document.findMany({ where: { userId: userId } });
+export const getDocumentByDriverId = (driver_id: number) => prisma.document.findMany({ where: { driver_id } });
+
+export const getDocumentByVendorId = (vendor_id: number) => prisma.document.findMany({ where: { vendor_id } });
 
 export const createDocument = (data: Prisma.DocumentCreateInput) => prisma.document.create({ data });
 
