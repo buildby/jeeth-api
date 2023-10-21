@@ -69,6 +69,18 @@
     }
   },
   "package" : {
-    
+    "sedan": {
+      "EV": {
+        "fixed_trip": {
+          "2" : 500,
+          "4" : 1000
+        },
+        "fixed_km": {
+          "range": 1500,
+          "rate" : 30000,
+          "km_rate" : 8
+        }
+      }
+    } 
   }
 }
