@@ -12,8 +12,9 @@
       "vehicle_type": {
         "sedan": {
           "EV": 350,
-          "Petrol": 300,
-          "Diesel": 320
+          "Petrol/Diesel": 300,
+          "delete-Diesel": 320,
+          "CNG": 300
         },
         "suv": {
           "EV": 400,
@@ -54,7 +55,7 @@
   "km_fare": {
     "sedan": {
       "EV": 10,
-      "Petrol": 9,
+      "Petrol/Diesel": 9,
       "Diesel": 9.5
     },
     "suv": {
@@ -82,5 +83,34 @@
         }
       }
     } 
+  },
+  "packagev2": {
+    "fixed_km" :{
+      "range": 1500,
+      "vehicle_type": {
+        "sedan": {
+          "EV": {
+            "rate" : 30000,
+            "km_rate" : 8
+          },
+          "Petrol/Diesel": {
+            "rate" : 30000,
+            "km_rate" : 8
+          }
+        }
+      }
+    },
+    "fixed_trip" :{
+      "sedan": {
+        "EV": {
+          "2" : 500,
+          "4" : 1000
+        },
+        "Petrol/Diesel": {
+          "2" : 500,
+          "4" : 1000
+        }
+      }
+    }
   }
 }
