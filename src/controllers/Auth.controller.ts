@@ -28,8 +28,8 @@ export const sendOtp: RequestHandler = async (req, res, next) => {
 
     if (!phoneNumber) {
       return res.status(400).send({
-        success: false,
-        result: "Phone number is required",
+        result: 'failure',
+        message: "Phone number is required",
       });
     }
 
