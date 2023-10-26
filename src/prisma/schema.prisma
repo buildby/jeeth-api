@@ -15,6 +15,7 @@ enum UserRole {
 
 model User {
   id         Int      @id @default(autoincrement())
+  name       String?
   phone      String?  @unique
   email      String?  @unique
   role       UserRole @default(DRIVER)
@@ -60,10 +61,14 @@ model Driver {
   id         Int        @id @default(autoincrement())
   User       User       @relation(fields: [user_id], references: [id])
   user_id    Int        @unique
-  name       String
+  name       String?
   phone      String     @unique
   email      String?
-  address    String
+  address    String?
+  gender     String?
+  accNumber  String?
+  ifscCode   String?
+  dob        DateTime?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   Documents  Document[]

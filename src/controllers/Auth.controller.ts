@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 import * as MSG91Service from "../services/Msg91.service";
 import * as AuthService from "../services/Auth.service";
+import * as DriverService from "../services/Driver.service";
+
 import * as UserService from "../services/User.service";
 import { UserRole } from "@prisma/client";
 
@@ -26,8 +28,8 @@ export const sendOtp: RequestHandler = async (req, res, next) => {
 
     if (!phoneNumber) {
       return res.status(400).send({
-        success: false,
-        result: "Phone number is required",
+        result: "failure",
+        message: "Phone number is required",
       });
     }
 
@@ -127,15 +129,22 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
         user = await UserService.createUser({
           phone: phoneNumber,
           role: UserRole.DRIVER,
+          Driver: {
+            create: {
+              phone: phoneNumber,
+            },
+          },
         });
       }
 
       // generate accessToken
       const token = AuthService.createAccessToken(user.id);
 
+      const driver = await DriverService.getDriver(user.id);
+
       return res.status(200).send({
         result: "success",
-        data: user,
+        data: { user, driver },
         token: token,
       });
     }
@@ -156,8 +165,11 @@ export const webSendOtp: RequestHandler = async (req, res, next) => {
 
     if (!phoneNumber) {
       return res.status(400).send({
-        result: '',
-        message: "Phone number is required",
+        result: "failure",
+        data: {
+          message: "Phone number is required",
+          type: "error",
+        },
       });
     }
 
@@ -165,8 +177,11 @@ export const webSendOtp: RequestHandler = async (req, res, next) => {
 
     if (!user) {
       return res.status(400).send({
-        result: 'failure',
-        message: "No user found with this phone number",
+        result: "failure",
+        data: {
+          message: "No user found with this phone number",
+          type: "error",
+        },
       });
     }
 
@@ -196,14 +211,20 @@ export const webVerifyOtp: RequestHandler = async (req, res, next) => {
     if (!phoneNumber) {
       return res.status(400).send({
         result: "failure",
-        message: "Phone number is required",
+        data: {
+          message: "Phone number is required",
+          type: "error",
+        },
       });
     }
 
     if (!otp) {
       return res.status(400).send({
         result: "failure",
-        message: "OTP is required",
+        data: {
+          message: "OTP is required",
+          type: "error",
+        },
       });
     }
 
