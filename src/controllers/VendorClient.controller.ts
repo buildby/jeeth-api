@@ -40,15 +40,15 @@ export const createVendorClient: RequestHandler = async (req, res, next) => {
       MetaData: {
         create: [
           {
-            key: "promoter_name",
+            key: MetaDataTypes.PROMOTER_NAME,
             value: req.body.promoter_name,
           },
           {
-            key: "promoter_phone",
+            key: MetaDataTypes.PROMOTER_PHONE,
             value: req.body.promoter_phone,
           },
           {
-            key: "helpdesk_phone",
+            key: MetaDataTypes.HELPLINE_NUMBER,
             value: req.body.helpdesk_phone,
           }
         ]
