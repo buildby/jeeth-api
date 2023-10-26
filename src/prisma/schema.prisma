@@ -60,10 +60,10 @@ model Driver {
   id         Int        @id @default(autoincrement())
   User       User       @relation(fields: [user_id], references: [id])
   user_id    Int        @unique
-  name       String
+  name       String?
   phone      String     @unique
   email      String?
-  address    String
+  address    String?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   Documents  Document[]

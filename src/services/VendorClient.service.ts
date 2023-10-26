@@ -15,6 +15,9 @@ export const getVendorByVendorId = (vendor_id: number) => {
   return prisma.vendor.findMany({
     where: {
       user_id: vendor_id
+    },
+    select: {
+      Documents: true,
     }
   })
 }

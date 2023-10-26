@@ -111,7 +111,7 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
     //   });
     // }
 
-    let verifyOtpResponse: any;
+    let verifyOtpResponse;
 
     if (process.env.NODE_ENV == 'production') {
       verifyOtpResponse = await MSG91Service.verifyOTP(phoneNumber, otp, countryCode);
@@ -128,6 +128,11 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
         user = await UserService.createUser({
           phone: phoneNumber,
           role: UserRole.DRIVER,
+          Driver: {
+            create: {
+              phone: phoneNumber,
+            }
+          }
         });
       }
 
