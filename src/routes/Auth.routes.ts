@@ -7,3 +7,5 @@ AuthRoutes.post("/login", AuthController.login);
 AuthRoutes.post("/send-otp", AuthController.sendOtp);
 AuthRoutes.post("/resend-otp", AuthController.resendOtp);
 AuthRoutes.post("/verify-otp", AuthController.verifyOtp);
+AuthRoutes.post("/web-send-otp", AuthController.webSendOtp);
+AuthRoutes.post("/web-verify-otp", AuthController.webVerifyOtp);

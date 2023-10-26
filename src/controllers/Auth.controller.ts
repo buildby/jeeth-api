@@ -4,20 +4,18 @@ import * as AuthService from "../services/Auth.service";
 import * as UserService from "../services/User.service";
 import { UserRole } from "@prisma/client";
 
-
 export const login: RequestHandler = async (req, res, next) => {
   try {
     const accessToken = AuthService.createAccessToken(1);
     return res.status(200).send({
-      result: 'success',
+      result: "success",
       data: {
         accessToken,
         userId: 1,
-        message: 'dummy-access-token'
-      }
+        message: "dummy-access-token",
+      },
     });
-  }
-  catch (error) {
+  } catch (error) {
     next(error);
   }
 };
@@ -34,25 +32,22 @@ export const sendOtp: RequestHandler = async (req, res, next) => {
     }
 
     // Send dummy OTP success response in development mode
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       return res.status(200).send({
-        result: 'success',
-        data: { type: 'success' },
-
+        result: "success",
+        data: { type: "success" },
       });
     }
 
     const otpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
 
     return res.status(200).send({
-      result: 'success',
+      result: "success",
       data: otpResponse.data,
     });
-
   } catch (error) {
     next(error);
   }
-
 };
 
 export const resendOtp: RequestHandler = async (req, res, next) => {
@@ -67,19 +62,22 @@ export const resendOtp: RequestHandler = async (req, res, next) => {
     }
 
     // Send dummy OTP success response in development mode
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       return res.status(200).send({
-        result: 'success',
+        result: "success",
       });
     }
 
-    const retryOtpResponse = await MSG91Service.resendOTP(phoneNumber, countryCode, type);
+    const retryOtpResponse = await MSG91Service.resendOTP(
+      phoneNumber,
+      countryCode,
+      type
+    );
 
     return res.status(200).send({
-      result: 'success',
+      result: "success",
       data: retryOtpResponse.data,
     });
-
   } catch (error) {
     next(error);
   }
@@ -87,19 +85,18 @@ export const resendOtp: RequestHandler = async (req, res, next) => {
 
 export const verifyOtp: RequestHandler = async (req, res, next) => {
   try {
-
     const { phoneNumber, otp, countryCode = "+91" } = req.body;
 
     if (!phoneNumber) {
       return res.status(400).send({
-        result: 'failure',
+        result: "failure",
         message: "Phone number is required",
       });
     }
 
     if (!otp) {
       return res.status(400).send({
-        result: 'failure',
+        result: "failure",
         message: "OTP is required",
       });
     }
@@ -113,15 +110,17 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
 
     let verifyOtpResponse: any;
 
-    if (process.env.NODE_ENV == 'production') {
-      verifyOtpResponse = await MSG91Service.verifyOTP(phoneNumber, otp, countryCode);
-
+    if (process.env.NODE_ENV == "production") {
+      verifyOtpResponse = await MSG91Service.verifyOTP(
+        phoneNumber,
+        otp,
+        countryCode
+      );
     } else {
-      verifyOtpResponse = { data: { type: 'success' } };
+      verifyOtpResponse = { data: { type: "success" } };
     }
 
-    if (verifyOtpResponse.data.type === 'success') {
-
+    if (verifyOtpResponse.data.type === "success") {
       let user = await UserService.findUserByPhone(phoneNumber);
 
       if (!user) {
@@ -135,7 +134,7 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
       const token = AuthService.createAccessToken(user.id);
 
       return res.status(200).send({
-        result: 'success',
+        result: "success",
         data: user,
         token: token,
       });
@@ -143,15 +142,102 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
 
     // If OTP verification fails, return error response
     return res.status(400).send({
-      result: 'failure',
+      result: "failure",
       data: verifyOtpResponse.data,
     });
-
   } catch (error) {
     next(error);
   }
 };
 
+export const webSendOtp: RequestHandler = async (req, res, next) => {
+  try {
+    const { phoneNumber, countryCode = "+91" } = req.body;
 
+    if (!phoneNumber) {
+      return res.status(400).send({
+        result: '',
+        message: "Phone number is required",
+      });
+    }
 
+    let user = await UserService.findUserByPhone(phoneNumber);
 
+    if (!user) {
+      return res.status(400).send({
+        result: 'failure',
+        message: "No user found with this phone number",
+      });
+    }
+
+    // Send dummy OTP success response in development mode
+    if (process.env.NODE_ENV !== "production") {
+      return res.status(200).send({
+        result: "success",
+        data: { type: "success" },
+      });
+    }
+
+    const otpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
+
+    return res.status(200).send({
+      result: "success",
+      data: otpResponse.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const webVerifyOtp: RequestHandler = async (req, res, next) => {
+  try {
+    const { phoneNumber, otp, countryCode = "+91" } = req.body;
+
+    if (!phoneNumber) {
+      return res.status(400).send({
+        result: "failure",
+        message: "Phone number is required",
+      });
+    }
+
+    if (!otp) {
+      return res.status(400).send({
+        result: "failure",
+        message: "OTP is required",
+      });
+    }
+
+    let verifyOtpResponse;
+
+    if (process.env.NODE_ENV == "production") {
+      verifyOtpResponse = await MSG91Service.verifyOTP(
+        phoneNumber,
+        otp,
+        countryCode
+      );
+    } else {
+      verifyOtpResponse = { data: { type: "success" } };
+    }
+
+    if (verifyOtpResponse.data.type === "success") {
+      let user = await UserService.findUserByPhone(phoneNumber);
+
+      // generate accessToken
+      const token = AuthService.createAccessToken(user!.id);
+
+      return res.status(200).send({
+        result: "success",
+        data: user,
+        token: token,
+      });
+    }
+
+    // If OTP verification fails, return error response
+    return res.status(400).send({
+      result: "failure",
+      data: verifyOtpResponse.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
