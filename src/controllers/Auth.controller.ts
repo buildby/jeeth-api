@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 import * as MSG91Service from "../services/Msg91.service";
 import * as AuthService from "../services/Auth.service";
+import * as DriverService from "../services/Driver.service";
+
 import * as UserService from "../services/User.service";
 import { UserRole } from "@prisma/client";
 
@@ -128,16 +130,28 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
         user = await UserService.createUser({
           phone: phoneNumber,
           role: UserRole.DRIVER,
+          Driver: {
+            create:
+            {
+              phone: phoneNumber,
+
+            }
+
+          }
         });
       }
 
       // generate accessToken
       const token = AuthService.createAccessToken(user.id);
 
+      const driver = await DriverService.getDriver(user.id);
+
       return res.status(200).send({
         result: 'success',
-        data: user,
+        data: { user, driver },
         token: token,
+
+
       });
     }
 

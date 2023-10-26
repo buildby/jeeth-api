@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE `Driver` ADD COLUMN `accNumber` VARCHAR(191) NULL,
+    ADD COLUMN `dob` DATETIME(3) NULL,
+    ADD COLUMN `gender` VARCHAR(191) NULL,
+    ADD COLUMN `ifscCode` VARCHAR(191) NULL,
+    MODIFY `name` VARCHAR(191) NULL,
+    MODIFY `address` VARCHAR(191) NULL;
