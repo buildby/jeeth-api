@@ -66,6 +66,7 @@ model Driver {
   email      String?
   address    String?
   gender     String?
+  bankName   String?
   accNumber  String?
   ifscCode   String?
   dob        DateTime?
