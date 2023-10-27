@@ -5,6 +5,7 @@ import { VendorClientRoutes } from "./VendorClient.route";
 import { AuthRoutes } from "./Auth.routes";
 import { DriverRoutes } from "./Driver.routes";
 import { SitesRoutes } from "./Sites.routes";
+import { AWSRoutes } from "./Aws.routes";
 
 export const Routes: Router = express.Router();
 
@@ -14,4 +15,4 @@ Routes.use('/vendorclient', VendorClientRoutes);
 Routes.use('/sites', SitesRoutes);
 Routes.use('/auth', AuthRoutes);
 Routes.use('/driver', DriverRoutes);
-
+Routes.use('/uploads', AWSRoutes);
