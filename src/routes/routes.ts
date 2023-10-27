@@ -15,4 +15,4 @@ Routes.use('/vendorclient', VendorClientRoutes);
 Routes.use('/sites', SitesRoutes);
 Routes.use('/auth', AuthRoutes);
 Routes.use('/driver', DriverRoutes);
-Routes.use('/uploads', AWSRoutes);
+Routes.use('/aws', AWSRoutes);

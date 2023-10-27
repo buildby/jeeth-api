@@ -10,7 +10,7 @@ const S3 = new awsSDK.S3({
   });
   
 
-export const getUploadFileUrl = async (fileName: string) => {
+export const getSignedUrl = async (fileName: string) => {
   // const fileNamePrefix = uuid();
   // const extension = extractExtention(fileName);
   return await S3.getSignedUrlPromise("putObject", {
