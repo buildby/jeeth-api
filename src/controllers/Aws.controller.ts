@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import * as AwsService from "../services/Aws.service";
 
+
 export const getUploadFileUrl: RequestHandler = async (req, res, next) => {
   try {
     const url = await AwsService.getUploadFileUrl(req.params.fileName);
@@ -13,3 +14,4 @@ export const getUploadFileUrl: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
