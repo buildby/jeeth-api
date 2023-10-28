@@ -39,11 +39,12 @@ model Document {
 }
 
 model Vendor {
-  id            Int             @id @default(autoincrement())
-  User          User            @relation(fields: [user_id], references: [id])
-  user_id       Int             @unique
-  profile       String
-  name          String
+  id      Int     @id @default(autoincrement())
+  User    User    @relation(fields: [user_id], references: [id])
+  user_id Int     @unique
+  name    String
+  avatar  String?
+
   email         String          @unique
   phone         String          @unique
   address       String
