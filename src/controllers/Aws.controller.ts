@@ -7,9 +7,10 @@ export const getSignedUrl: RequestHandler = async (req, res, next) => {
 
     return res.status(200).json({
       result: "success",
-      data: {signedUrl: url,}
+      data: { signedUrl: url, }
     });
   } catch (err) {
     next(err);
   }
 };
+
