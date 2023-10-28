@@ -75,9 +75,29 @@ export const createVendor: RequestHandler = async (req, res, next) => {
 
 export const updateVendor: RequestHandler = async (req, res, next) => {
   try {
+    const updateData: Prisma.VendorUpdateInput = {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+      city: req.body.city,
+      state: req.body.state,
+      pincode: req.body.pincode,
+    };
+
+    if (req.body.documents) {
+      const documentsToConnect = req.body.documents.map((docId: any) => ({
+        id: docId,
+      }));
+
+      updateData["Documents"] = {
+        connect: documentsToConnect,
+      };
+    }
+
     const vendor = await VendorClientService.updateVendor(
       +req.params.id,
-      req.body
+      updateData
     );
 
     return res.status(200).json({
@@ -107,15 +127,13 @@ export const getVendorClientsbyVendorId: RequestHandler = async (
   next
 ) => {
   try {
-    const vendorId = +req.params.vendorId;
-
-    const vendorClients = await VendorClientService.getVendorByVendorId(
-      vendorId
+    const vendorClient = await VendorClientService.getVendorByVendorId(
+      +req.params.id
     );
 
     return res.status(200).json({
       result: "success",
-      data: vendorClients,
+      data: vendorClient,
     });
   } catch (error) {
     next(error);
