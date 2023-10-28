@@ -30,7 +30,6 @@ model Document {
   type       String
   filename   String
   key        String
-  value      String
   url        String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -44,6 +43,7 @@ model Vendor {
   id            Int             @id @default(autoincrement())
   User          User            @relation(fields: [user_id], references: [id])
   user_id       Int             @unique
+  avatar        String
   name          String
   email         String          @unique
   phone         String          @unique
