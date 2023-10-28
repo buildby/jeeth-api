@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 import * as VendorClientService from "../services/VendorClient.service";
+
 import { Prisma, UserRole } from "@prisma/client";
+import { MetaDataTypes } from "../types/MetaData.type";
 
 export const getVendors: RequestHandler = async (_req, res, next) => {
   try {
@@ -30,6 +32,22 @@ export const createVendor: RequestHandler = async (req, res, next) => {
           phone: req.body.phone,
           role: UserRole.VENDOR,
         },
+      },
+      MetaData: {
+        create: [
+          {
+            key: MetaDataTypes.PROMOTER_NAME,
+            value: req.body.promoterName,
+          },
+          {
+            key: MetaDataTypes.PROMOTER_Designation,
+            value: req.body.promoterDesignation,
+          },
+          {
+            key: MetaDataTypes.HELPLINE_NUMBER,
+            value: req.body.helpLineNumber,
+          },
+        ],
       },
       Documents: {
         connect: [],
@@ -74,7 +92,10 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
 export const deleteVendor: RequestHandler = async (req, res, next) => {
   try {
     await VendorClientService.deleteVendor(+req.params.id);
-    return res.status(204);
+    return res.status(200).json({
+      result: "success",
+      data: { message: "Vendor deleted successfully" },
+    });
   } catch (error) {
     next(error);
   }
