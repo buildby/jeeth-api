@@ -63,6 +63,7 @@ model Driver {
   User       User       @relation(fields: [user_id], references: [id])
   user_id    Int        @unique
   name       String?
+  avatar     String?
   phone      String     @unique
   email      String?
   address    String?

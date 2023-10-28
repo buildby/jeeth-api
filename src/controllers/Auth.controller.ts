@@ -5,6 +5,7 @@ import * as DriverService from "../services/Driver.service";
 
 import * as UserService from "../services/User.service";
 import { UserRole } from "@prisma/client";
+import prisma from "../prisma/client";
 
 export const login: RequestHandler = async (req, res, next) => {
   try {
@@ -86,8 +87,12 @@ export const resendOtp: RequestHandler = async (req, res, next) => {
 };
 
 export const verifyOtp: RequestHandler = async (req, res, next) => {
+
   try {
     const { phoneNumber, otp, countryCode = "+91" } = req.body;
+
+
+
 
     if (!phoneNumber) {
       return res.status(400).send({

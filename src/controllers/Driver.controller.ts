@@ -16,9 +16,13 @@ export const editDriverProfile: RequestHandler = async (req, res, next) => {
         //     ifscCode: req.body.ifscCode,
         // }
 
-        const { id, name, address, dob, gender, bankName, email, accNumber, ifscCode } = req.body;
+        const { id, name, address, dob, gender, bankName, email, accNumber, ifscCode, avatar } = req.body;
 
-        const driver = await DriverService.updateDriver(parseInt(id), { name, address, dob: new Date(dob), gender, bankName, email, accNumber, ifscCode });
+        const dataToUpdate: Prisma.DriverUpdateInput = avatar
+            ? { avatar }
+            : { name, address, dob: new Date(dob), gender, bankName, email, accNumber, ifscCode }
+
+        const driver = await DriverService.updateDriver(+id, dataToUpdate);
 
         return res.status(200).json({
 
