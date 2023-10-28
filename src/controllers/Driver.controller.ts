@@ -6,16 +6,6 @@ import * as DriverService from "../services/Driver.service";
 export const editDriverProfile: RequestHandler = async (req, res, next) => {
     try {
 
-        // {
-        //     address: req.body.address,
-        //     name: req.body.name,
-        //     dob: req.body.dob,
-        //     gender: req.body.gender,
-        //     email: req.body.email,
-        //     accNumber: req.body.accNumber,
-        //     ifscCode: req.body.ifscCode,
-        // }
-
         const { id, name, address, dob, gender, bankName, email, accNumber, ifscCode, avatar } = req.body;
 
         const dataToUpdate: Prisma.DriverUpdateInput = avatar
