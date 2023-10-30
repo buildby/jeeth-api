@@ -6,7 +6,7 @@ export const getSignedUrl: RequestHandler = async (req, res, next) => {
     const url = await AwsService.getSignedUrl(req.params.fileName);
 
     return res.status(200).json({
-      result: "success",
+      result: url != '' ? "success" : 'failure',
       data: { signedUrl: url, }
     });
   } catch (err) {

@@ -84,14 +84,52 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
       state: req.body.state,
       pincode: req.body.pincode,
     };
-
     if (req.body.documents) {
       const documentsToConnect = req.body.documents.map((docId: any) => ({
         id: docId,
       }));
 
-      updateData["Documents"] = {
-        connect: documentsToConnect,
+      const existingVendor = await VendorClientService.getVendorByVendorId(
+        +req.params.id
+      );
+
+      // Check if the documents sent by the client don't match the existing documents
+      const existingDocumentIds = existingVendor!.Documents.map(
+        (doc: any) => doc.id
+      );
+      const newDocumentIds = req.body.documents;
+
+      const documentsChanged = !isEqualArrays(
+        existingDocumentIds,
+        newDocumentIds
+      );
+
+      if (documentsChanged) {
+        const documentsToDisconnect = existingDocumentIds.map((docId: any) => ({
+          id: docId,
+        }));
+
+        updateData["Documents"] = {
+          disconnect: documentsToDisconnect,
+          connect: documentsToConnect,
+        };
+      }
+    }
+
+    const metadataToUpdate = [];
+    if (req.body.metadata) {
+      for (const metadata of req.body.metadata) {
+        metadataToUpdate.push({
+          where: { id: metadata.id },
+          data: { value: metadata.value }, // Update the value directly
+        });
+      }
+    }
+
+    if (metadataToUpdate.length > 0) {
+      // Perform metadata updates collectively
+      updateData["MetaData"] = {
+        updateMany: metadataToUpdate,
       };
     }
 
@@ -139,3 +177,20 @@ export const getVendorClientsbyVendorId: RequestHandler = async (
     next(error);
   }
 };
+
+function isEqualArrays(arr1: any, arr2: any) {
+  const set1 = new Set(arr1);
+  const set2 = new Set(arr2);
+
+  if (set1.size !== set2.size) {
+    return false;
+  }
+
+  for (const item of set1) {
+    if (!set2.has(item)) {
+      return false;
+    }
+  }
+
+  return true;
+}

@@ -90,4 +90,27 @@ export const deleteDocument: RequestHandler = async (req, res, next) => {
   }
 }
 
+export const updateDriverDocument: RequestHandler = async (req, res, next) => {
+  // in api if doc id =0 create doc else update
+
+  // in flutter if type in body is 'jpg, png, jpeg then type = image and if pdf then type = document
+  // filename would be field name "pan, aadhar etc"
+  //driverid in params
+
+  // in create just pass body
+  // in update -> only filetype and url will be updated
+
+  try {
+    const { doc_id, type, url, filename } = req.body
+    const document = await doc_id == 0 ? DocumentService.createDocument(req.body) : DocumentService.updateDocument(+req.params.id, req.body);
+
+    return res.status(200).json({
+      result: 'success',
+      data: document,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 
