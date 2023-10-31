@@ -79,6 +79,17 @@ model Driver {
   MetaData   MetaData[]
 }
 
+model AppConfig {
+  id         Int     @id @default(autoincrement())
+  type       String
+  value      String
+  showButton Boolean
+  commonType String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 model ClientSite {
   id            Int             @id @default(autoincrement())
   name          String
