@@ -27,19 +27,7 @@ export const getDocument: RequestHandler = async (req, res, next) => {
   }
 }
 
-export const getDocumentByDriverId: RequestHandler = async (req, res, next) => {
-  try {
 
-    const documents = await DocumentService.getDocumentByDriverId(+req.params.driver_id);
-
-    return res.status(200).json({
-      result: 'success',
-      data: documents,
-    });
-  } catch (error) {
-    next(error);
-  }
-}
 
 export const getDocumentByVendorId: RequestHandler = async (req, res, next) => {
   try {
@@ -91,22 +79,51 @@ export const deleteDocument: RequestHandler = async (req, res, next) => {
 }
 
 export const updateDriverDocument: RequestHandler = async (req, res, next) => {
-  // in api if doc id =0 create doc else update
 
-  // in flutter if type in body is 'jpg, png, jpeg then type = image and if pdf then type = document
-  // filename would be field name "pan, aadhar etc"
-  //driverid in params
-
-  // in create just pass body
-  // in update -> only filetype and url will be updated
 
   try {
-    const { doc_id, type, url, filename } = req.body
-    const document = await doc_id == 0 ? DocumentService.createDocument(req.body) : DocumentService.updateDocument(+req.params.id, req.body);
+    const { doc_id, driver_id } = req.params
+    const { type, url, filename } = req.body;
+    let document;
+
+    switch (+doc_id) {
+      case 0:
+        document = await DocumentService
+          .createDocument({
+            type: type,
+            url: url,
+            filename: filename,
+            Driver: {
+              connect: { id: +driver_id }
+            }
+          });
+        break;
+
+      default:
+        document = await DocumentService.updateDocument(+doc_id, {
+          url: url,
+          type: type,
+        });
+        break;
+    }
 
     return res.status(200).json({
       result: 'success',
       data: document,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const getDocumentsByDriverId: RequestHandler = async (req, res, next) => {
+  try {
+
+    const documents = await DocumentService.getDocumentByDriverId(+req.params.driver_id);
+
+    return res.status(200).json({
+      result: 'success',
+      data: documents,
     });
   } catch (error) {
     next(error);
