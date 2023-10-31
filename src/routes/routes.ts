@@ -7,6 +7,7 @@ import { DriverRoutes } from "./Driver.routes";
 import { SitesRoutes } from "./Sites.routes";
 import { AWSRoutes } from "./Aws.routes";
 import { SlabModelRoutes } from "./SlabModel.routes";
+import { AppConfigRoutes } from "./appConfig.routes";
 
 export const Routes: Router = express.Router();
 
@@ -18,3 +19,5 @@ Routes.use("/slabModel", SlabModelRoutes);
 Routes.use("/auth", AuthRoutes);
 Routes.use("/driver", DriverRoutes);
 Routes.use("/aws", AWSRoutes);
+Routes.use("/appConfig", AppConfigRoutes);
+

@@ -2,6 +2,8 @@ import { AppConfig } from "aws-sdk";
 import * as AppConfigService from "../services/appConfig.service";
 import { Response, Request, NextFunction } from "express";
 
+
+
 // Vechjile Make Appcionfig = {
 //     "type": "Vechile Make",
 //     value: '["Toyota","Maruti"]',
@@ -36,26 +38,48 @@ export const insertAppConfig = async (
         });
     }
 };
+export const createVehicleConfigs = async (
+    req: any,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        let { type, value } = req.body;
+
+        value = JSON.stringify(value);
+
+        let data = await AppConfigService.createAppConfig({ type: type, value: value, });
+
+        res.status(200).json({
+            result: 'success',
+            data: data,
+        });
+    } catch (error) {
+        next(error);
+    }
+
+
+};
+
 export const fetchVehicleConfigs = async (
     req: any,
     res: Response,
     next: NextFunction
 ) => {
+    try {
 
-    let { type, value } = req.body;
+        const makes = await AppConfigService.fetchAppConfig('Vehicle Makes');
+        const models = await AppConfigService.fetchAppConfig('Vehicle Models');
 
-    value = JSON.stringify(value);
+        res.status(200).json({
+            result: 'success',
+            data: { makes, models },
+        });
+    } catch (error) {
+        next(error);
+    }
 
-    let data = await AppConfigService.createAppConfig({ type: type, value: value, });
 
-    // const makes = await AppConfigService.fetchAppConfig('Vehicle Makes');
-    // const models = await AppConfigService.fetchAppConfig('Vehicle Models');
-
-
-    res.status(200).json({
-        result: 'success',
-        // data: { makes, models },
-    });
 };
 
 
