@@ -29,7 +29,7 @@ model Document {
   id         Int      @id @default(autoincrement())
   type       String
   filename   String
-  key        String
+  key        String?
   url        String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
