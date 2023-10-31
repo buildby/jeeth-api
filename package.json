@@ -28,12 +28,14 @@
   "dependencies": {
     "@ngneat/falso": "^7.1.1",
     "@prisma/client": "^5.4.2",
+    "aws-sdk": "^2.1482.0",
     "axios": "^1.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jest-mock-extended": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
     "prisma": "^5.4.2",
     "swagger-ui-express": "^5.0.0",
     "yamljs": "^0.3.0"

@@ -15,6 +15,7 @@ enum UserRole {
 
 model User {
   id         Int      @id @default(autoincrement())
+  name       String?
   phone      String?  @unique
   email      String?  @unique
   role       UserRole @default(DRIVER)
@@ -28,6 +29,7 @@ model Document {
   id         Int      @id @default(autoincrement())
   type       String
   filename   String
+  key        String?
   url        String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -42,6 +44,7 @@ model Vendor {
   User          User            @relation(fields: [user_id], references: [id])
   user_id       Int             @unique
   name          String
+  avatar        String?
   email         String          @unique
   phone         String          @unique
   address       String
@@ -60,24 +63,42 @@ model Driver {
   id         Int        @id @default(autoincrement())
   User       User       @relation(fields: [user_id], references: [id])
   user_id    Int        @unique
-  name       String
+  name       String?
+  avatar     String?
   phone      String     @unique
   email      String?
-  address    String
+  address    String?
+  gender     String?
+  bankName   String?
+  accNumber  String?
+  ifscCode   String?
+  dob        DateTime?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   Documents  Document[]
   MetaData   MetaData[]
 }
 
+model AppConfig {
+  id         Int      @id @default(autoincrement())
+  type       String
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 model ClientSite {
-  id            Int             @id @default(autoincrement())
-  name          String
-  Vendor        Vendor          @relation(fields: [vendor_id], references: [id])
-  vendor_id     Int
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
-  BusinessModel BusinessModel[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  location       String
+  avatar         String
+  workingDays    Json
+  contactNumbers Json
+  Vendor         Vendor          @relation(fields: [vendor_id], references: [id])
+  vendor_id      Int
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  BusinessModel  BusinessModel[]
 }
 
 model MetaData {
