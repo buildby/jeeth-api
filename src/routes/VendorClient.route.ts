@@ -7,7 +7,7 @@ VendorClientRoutes.get("/", VendorClient.getVendors);
 
 VendorClientRoutes.post("/", VendorClient.createVendor);
 
-VendorClientRoutes.patch("/:id", VendorClient.updateVendor);
+VendorClientRoutes.post("/:id", VendorClient.updateVendor);
 
 VendorClientRoutes.delete("/:id", VendorClient.deleteVendor);
 

@@ -12,12 +12,7 @@ const app = express();
 
 // middlewares
 app.use(express.json());
-app.use(
-  cors({
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    origin: "*",
-  })
-);
+app.use(cors());
 
 // health check route
 app.get("/", (_req: Request, res: Response) => res.status(200).send("OK"));

@@ -24,6 +24,7 @@ export const createVendor: RequestHandler = async (req, res, next) => {
       city: req.body.city,
       email: req.body.email,
       name: req.body.name,
+      avatar: req.body.avatar,
       phone: req.body.phone,
       pincode: req.body.pincode,
       state: req.body.state,
@@ -77,6 +78,7 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
   try {
     const updateData: Prisma.VendorUpdateInput = {
       name: req.body.name,
+      avatar: req.body.avatar,
       email: req.body.email,
       phone: req.body.phone,
       address: req.body.address,
