@@ -2,7 +2,7 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import { Routes } from "./routes/routes";
 import Error from "./types/Error";
-import cors from "cors";
+var cors = require("cors");
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 

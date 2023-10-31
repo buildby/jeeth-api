@@ -6,13 +6,15 @@ import { AuthRoutes } from "./Auth.routes";
 import { DriverRoutes } from "./Driver.routes";
 import { SitesRoutes } from "./Sites.routes";
 import { AWSRoutes } from "./Aws.routes";
+import { SlabModelRoutes } from "./SlabModel.routes";
 
 export const Routes: Router = express.Router();
 
-Routes.use('/user', UserRoutes);
-Routes.use('/document', DocumentRoutes);
-Routes.use('/vendorclient', VendorClientRoutes);
-Routes.use('/sites', SitesRoutes);
-Routes.use('/auth', AuthRoutes);
-Routes.use('/driver', DriverRoutes);
-Routes.use('/aws', AWSRoutes);
+Routes.use("/user", UserRoutes);
+Routes.use("/document", DocumentRoutes);
+Routes.use("/vendorclient", VendorClientRoutes);
+Routes.use("/sites", SitesRoutes);
+Routes.use("/slabModel", SlabModelRoutes);
+Routes.use("/auth", AuthRoutes);
+Routes.use("/driver", DriverRoutes);
+Routes.use("/aws", AWSRoutes);
