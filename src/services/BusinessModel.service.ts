@@ -13,8 +13,8 @@ export const getModels = (type: BusinessModelType) =>
     },
   });
 
-export const getModelById = (id: number) =>
-  prisma.businessModel.findFirst({ where: { id: id } });
+export const getModelById = (id: number, type: BusinessModelType) =>
+  prisma.businessModel.findFirst({ where: { id: id, type: type } });
 
 export const createModel = (data: Prisma.BusinessModelCreateInput) =>
   prisma.businessModel.create({ data: data });

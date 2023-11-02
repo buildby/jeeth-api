@@ -88,7 +88,24 @@ export const deleteModel: RequestHandler = async (req, res, next) => {
 
 export const getModelById: RequestHandler = async (req, res, next) => {
   try {
-    const site = await SlabModelService.getModelById(+req.params.id);
+    var type: BusinessModelType = "SLAB";
+    switch (req.params.type) {
+      case "SLAB":
+        type = BusinessModelType.SLAB;
+        break;
+
+      case "KM_FARE":
+        type = BusinessModelType.KM_FARE;
+        break;
+
+      case "PACKAGE":
+        type = BusinessModelType.PACKAGE;
+        break;
+
+      default:
+        break;
+    }
+    const site = await SlabModelService.getModelById(+req.params.id, type);
 
     return res.status(200).json({
       result: "success",

@@ -11,4 +11,4 @@ SlabModelRoutes.post("/:id", SlabModel.updateModel);
 
 SlabModelRoutes.delete("/:id", SlabModel.deleteModel);
 
-SlabModelRoutes.get("/:id", SlabModel.getModelById);
+SlabModelRoutes.get("/:id/:type", SlabModel.getModelById);
