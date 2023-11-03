@@ -76,10 +76,10 @@ export const updateModel: RequestHandler = async (req, res, next) => {
 
 export const deleteModel: RequestHandler = async (req, res, next) => {
   try {
-    await SlabModelService.deleteModel(+req.params.id);
+    const model = await SlabModelService.deleteModel(+req.params.id);
     return res.status(200).json({
       result: "success",
-      data: { message: "Site deleted successfully" },
+      data: { message: `${model.type} model deleted successfully` },
     });
   } catch (error) {
     next(error);
