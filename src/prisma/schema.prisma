@@ -60,19 +60,29 @@ model Vendor {
 }
 
 model Driver {
-  id         Int        @id @default(autoincrement())
-  User       User       @relation(fields: [user_id], references: [id])
-  user_id    Int        @unique
-  name       String?
-  avatar     String?
-  phone      String     @unique
-  email      String?
-  address    String?
-  gender     String?
-  bankName   String?
-  accNumber  String?
-  ifscCode   String?
-  dob        DateTime?
+  id               Int       @id @default(autoincrement())
+  User             User      @relation(fields: [user_id], references: [id])
+  user_id          Int       @unique
+  name             String?
+  avatar           String?
+  phone            String    @unique
+  email            String?
+  address          String?
+  gender           String?
+  bankName         String?
+  accNumber        String?
+  ifscCode         String?
+  dob              DateTime?
+  vehicleImage     String?
+  vehicleMake      String?
+  vehicleModel     String?
+  vehicleType      String?
+  vehicleYear      String?
+  vehicleNumber    String?
+  ownerName        String?
+  ownerAddress     String?
+  ownerPhoneNumber String?
+
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   Documents  Document[]
