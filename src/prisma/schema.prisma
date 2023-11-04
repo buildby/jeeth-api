@@ -57,15 +57,22 @@ model Vendor {
   ClientSites   ClientSite[]
   MetaData      MetaData[]
   BusinessModel BusinessModel[]
+  Driver        Driver[]
+}
+
+enum DriverStatus {
+  ACTIVE
+  IN_ACTIVE
 }
 
 model Driver {
-  id               Int       @id @default(autoincrement())
-  User             User      @relation(fields: [user_id], references: [id])
-  user_id          Int       @unique
+  id               Int          @id @default(autoincrement())
+  User             User         @relation(fields: [user_id], references: [id])
+  user_id          Int          @unique
+  status           DriverStatus
   name             String?
   avatar           String?
-  phone            String    @unique
+  phone            String       @unique
   email            String?
   address          String?
   gender           String?
@@ -82,11 +89,14 @@ model Driver {
   ownerName        String?
   ownerAddress     String?
   ownerPhoneNumber String?
-
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  Documents  Document[]
-  MetaData   MetaData[]
+  Vendor           Vendor?      @relation(fields: [vendor_id], references: [id])
+  vendor_id        Int?
+  clientsite_id    Int?
+  ClientSite       ClientSite?  @relation(fields: [clientsite_id], references: [id])
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @updatedAt
+  Documents        Document[]
+  MetaData         MetaData[]
 }
 
 model AppConfig {
@@ -109,6 +119,7 @@ model ClientSite {
   created_at     DateTime        @default(now())
   updated_at     DateTime        @updatedAt
   BusinessModel  BusinessModel[]
+  Driver         Driver[]
 }
 
 model MetaData {

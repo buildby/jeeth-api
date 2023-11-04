@@ -1,8 +1,13 @@
 import express, { Router } from "express";
-import * as DriverModel from "../controllers/VehicleAttachment.controller";
+import * as VehicleAttachment from "../controllers/VehicleAttachment.controller";
 
 export const VehicleAttachmentRoutes: Router = express.Router();
 
-VehicleAttachmentRoutes.get("/", DriverModel.getAllDriver);
+VehicleAttachmentRoutes.get("/profile", VehicleAttachment.getAllDriver);
 
-VehicleAttachmentRoutes.get("/:id", DriverModel.getDriverById);
+VehicleAttachmentRoutes.get(
+  "/newApplication",
+  VehicleAttachment.getAllNewApplication
+);
+
+VehicleAttachmentRoutes.get("/:id", VehicleAttachment.getDriverById);
