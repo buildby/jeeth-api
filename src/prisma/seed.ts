@@ -1,10 +1,11 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { DriverStatus, Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
   const userData: Prisma.DriverCreateInput = {
     name: "John Doe",
+    status: DriverStatus.IN_ACTIVE,
     address: "123 Main St",
     phone: "123-456-7890",
     User: {

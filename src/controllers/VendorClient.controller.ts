@@ -122,7 +122,7 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
     //   }
     // }
     
-    if (req.body.documents) {
+    if (updateData.Documents) {
       for (const documentId of req.body.documents) {
         (updateData.Documents.connect as { id: number }[]).push({
           id: documentId,

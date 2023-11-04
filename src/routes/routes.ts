@@ -8,7 +8,7 @@ import { SitesRoutes } from "./Sites.routes";
 import { AWSRoutes } from "./Aws.routes";
 import { SlabModelRoutes } from "./BusinessModel.routes";
 import { AppConfigRoutes } from "./appConfig.routes";
-import { VehicleAttachmentRoutes } from "./vehicleAttachment.routes";
+import { VehicleAttachmentRoutes } from "./VehicleAttachment.routes";
 
 export const Routes: Router = express.Router();
 
