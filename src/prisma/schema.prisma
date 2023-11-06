@@ -135,9 +135,17 @@ model BusinessModel {
   ClientSite    ClientSite        @relation(fields: [clientsite_id], references: [id])
 }
 
+enum CampaignStatus {
+  ACTIVE
+  PAUSED
+  INACTIVE
+  COMPLETED
+}
+
 model Campaign {
   id                Int                 @id @default(autoincrement())
   name              String
+  status            CampaignStatus      @default(INACTIVE)
   avgFare           Int
   client_site_id    Int
   ClientSite        ClientSite          @relation(fields: [client_site_id], references: [id])
