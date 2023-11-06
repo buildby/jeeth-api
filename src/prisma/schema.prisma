@@ -57,26 +57,28 @@ model Vendor {
   ClientSites   ClientSite[]
   MetaData      MetaData[]
   BusinessModel BusinessModel[]
+  Campaign      Campaign[]
 }
 
 model Driver {
-  id         Int        @id @default(autoincrement())
-  User       User       @relation(fields: [user_id], references: [id])
-  user_id    Int        @unique
-  name       String?
-  avatar     String?
-  phone      String     @unique
-  email      String?
-  address    String?
-  gender     String?
-  bankName   String?
-  accNumber  String?
-  ifscCode   String?
-  dob        DateTime?
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  Documents  Document[]
-  MetaData   MetaData[]
+  id                Int                 @id @default(autoincrement())
+  User              User                @relation(fields: [user_id], references: [id])
+  user_id           Int                 @unique
+  name              String?
+  avatar            String?
+  phone             String              @unique
+  email             String?
+  address           String?
+  gender            String?
+  bankName          String?
+  accNumber         String?
+  ifscCode          String?
+  dob               DateTime?
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @updatedAt
+  Documents         Document[]
+  MetaData          MetaData[]
+  DriverApplication DriverApplication[]
 }
 
 model AppConfig {
@@ -99,6 +101,7 @@ model ClientSite {
   created_at     DateTime        @default(now())
   updated_at     DateTime        @updatedAt
   BusinessModel  BusinessModel[]
+  Campaign       Campaign[]
 }
 
 model MetaData {
@@ -130,4 +133,36 @@ model BusinessModel {
   clientsite_id Int
   Vendor        Vendor            @relation(fields: [vendor_id], references: [id])
   ClientSite    ClientSite        @relation(fields: [clientsite_id], references: [id])
+}
+
+model Campaign {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  avgFare           Int
+  client_site_id    Int
+  ClientSite        ClientSite          @relation(fields: [client_site_id], references: [id])
+  Vendor            Vendor              @relation(fields: [vendor_id], references: [id])
+  vendor_id         Int
+  data              Json
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @updatedAt
+  DriverApplication DriverApplication[]
+}
+
+enum DriverApplicationStatus {
+  PENDING
+  HOLD
+  APPROVED
+  REJECTED
+}
+
+model DriverApplication {
+  id          Int                     @id @default(autoincrement())
+  status      DriverApplicationStatus @default(PENDING)
+  Campaign    Campaign                @relation(fields: [campaign_id], references: [id])
+  campaign_id Int
+  Driver      Driver                  @relation(fields: [driver_id], references: [id])
+  driver_id   Int
+  created_at  DateTime                @default(now())
+  updated_at  DateTime                @updatedAt
 }
