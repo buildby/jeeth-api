@@ -267,3 +267,29 @@ export const webVerifyOtp: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+export const driverAutoLogin: RequestHandler = async (req, res, next) => {
+  try {
+    let { phone }: any = req.params;
+    let driver, token;
+    const user = await UserService.findUserByPhone(phone);
+
+    if (user) {
+      driver = await DriverService.getDriver(user.id);
+      token = AuthService.createAccessToken(user.id);
+    }
+
+    res.status(200).send({
+      result: "success",
+      data: { user, driver },
+      token: token,
+    });
+
+    return res.status(400).send({
+      result: "failure",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};

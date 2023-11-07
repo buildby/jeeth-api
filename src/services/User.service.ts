@@ -10,3 +10,4 @@ export const createUser = (data: Prisma.UserCreateInput) => prisma.user.create({
 export const deleteUser = (id: number) => prisma.user.delete({ where: { id: id } });
 
 export const findUserByPhone = (phone: string) => prisma.user.findUnique({ where: { phone: phone } });
+

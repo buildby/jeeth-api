@@ -4,6 +4,7 @@ import * as AuthController from "../controllers/Auth.controller";
 export const AuthRoutes: Router = express.Router();
 
 AuthRoutes.post("/login", AuthController.login);
+AuthRoutes.get("/driverAutoLogin/:phone", AuthController.driverAutoLogin);
 AuthRoutes.post("/send-otp", AuthController.sendOtp);
 AuthRoutes.post("/resend-otp", AuthController.resendOtp);
 AuthRoutes.post("/verify-otp", AuthController.verifyOtp);
