@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import * as SlabModelService from "../services/BusinessModel.service";
+import * as BusinessModelService from "../services/BusinessModel.service";
 import { BusinessModelType, Prisma } from "@prisma/client";
 
 export const getModels: RequestHandler = async (req, res, next) => {
@@ -21,11 +21,11 @@ export const getModels: RequestHandler = async (req, res, next) => {
       default:
         break;
     }
-    const sites = await SlabModelService.getModels(type);
+    const models = await BusinessModelService.getModels(type);
 
     return res.status(200).json({
       result: "success",
-      data: sites,
+      data: models,
     });
   } catch (err) {
     next(err);
@@ -34,7 +34,7 @@ export const getModels: RequestHandler = async (req, res, next) => {
 
 export const createModel: RequestHandler = async (req, res, next) => {
   try {
-    const slabModelData: Prisma.BusinessModelCreateInput = {
+    const modelData: Prisma.BusinessModelCreateInput = {
       name: req.body.name,
       modeldata: req.body.modeldata,
       type: req.body.type,
@@ -42,11 +42,11 @@ export const createModel: RequestHandler = async (req, res, next) => {
       Vendor: { connect: { id: req.body.vendor_id } },
     };
 
-    const site = await SlabModelService.createModel(slabModelData);
+    const model = await BusinessModelService.createModel(modelData);
 
     return res.status(201).json({
       result: "success",
-      data: site,
+      data: model,
     });
   } catch (error) {
     next(error);
@@ -55,7 +55,7 @@ export const createModel: RequestHandler = async (req, res, next) => {
 
 export const updateModel: RequestHandler = async (req, res, next) => {
   try {
-    const siteData: Prisma.BusinessModelUpdateInput = {
+    const updateModelData: Prisma.BusinessModelUpdateInput = {
       name: req.body.name,
       modeldata: req.body.modeldata,
       type: req.body.type,
@@ -63,11 +63,14 @@ export const updateModel: RequestHandler = async (req, res, next) => {
       Vendor: { connect: { id: req.body.vendor_id } },
     };
 
-    const site = await SlabModelService.updateModel(+req.params.id, siteData);
+    const model = await BusinessModelService.updateModel(
+      +req.params.id,
+      updateModelData
+    );
 
     return res.status(201).json({
       result: "success",
-      data: site,
+      data: model,
     });
   } catch (error) {
     next(error);
@@ -76,7 +79,7 @@ export const updateModel: RequestHandler = async (req, res, next) => {
 
 export const deleteModel: RequestHandler = async (req, res, next) => {
   try {
-    const model = await SlabModelService.deleteModel(+req.params.id);
+    const model = await BusinessModelService.deleteModel(+req.params.id);
     return res.status(200).json({
       result: "success",
       data: { message: `${model.type} model deleted successfully` },
@@ -105,11 +108,11 @@ export const getModelById: RequestHandler = async (req, res, next) => {
       default:
         break;
     }
-    const site = await SlabModelService.getModelById(+req.params.id, type);
+    const model = await BusinessModelService.getModelById(+req.params.id, type);
 
     return res.status(200).json({
       result: "success",
-      data: site,
+      data: model,
     });
   } catch (error) {
     next(error);

@@ -11,3 +11,5 @@ VehicleAttachmentRoutes.get(
 );
 
 VehicleAttachmentRoutes.get("/:id", VehicleAttachment.getDriverById);
+
+VehicleAttachmentRoutes.post("/:id", VehicleAttachment.updateStatusOfDriver);

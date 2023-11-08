@@ -1,14 +1,14 @@
 import express, { Router } from "express";
 import * as SlabModel from "../controllers/BusinessModel.controller";
 
-export const SlabModelRoutes: Router = express.Router();
+export const BusinessModelRoutes: Router = express.Router();
 
-SlabModelRoutes.get("/:type", SlabModel.getModels);
+BusinessModelRoutes.get("/:type", SlabModel.getModels);
 
-SlabModelRoutes.post("/", SlabModel.createModel);
+BusinessModelRoutes.post("/", SlabModel.createModel);
 
-SlabModelRoutes.post("/:id", SlabModel.updateModel);
+BusinessModelRoutes.post("/:id", SlabModel.updateModel);
 
-SlabModelRoutes.delete("/:id", SlabModel.deleteModel);
+BusinessModelRoutes.delete("/:id", SlabModel.deleteModel);
 
-SlabModelRoutes.get("/:id/:type", SlabModel.getModelById);
+BusinessModelRoutes.get("/:id/:type", SlabModel.getModelById);

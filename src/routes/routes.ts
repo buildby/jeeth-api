@@ -6,9 +6,10 @@ import { AuthRoutes } from "./Auth.routes";
 import { DriverRoutes } from "./Driver.routes";
 import { SitesRoutes } from "./Sites.routes";
 import { AWSRoutes } from "./Aws.routes";
-import { SlabModelRoutes } from "./BusinessModel.routes";
+import { BusinessModelRoutes } from "./BusinessModel.routes";
 import { AppConfigRoutes } from "./appConfig.routes";
 import { VehicleAttachmentRoutes } from "./VehicleAttachment.routes";
+import { CampaignRoutes } from "./Campaign.routes";
 
 export const Routes: Router = express.Router();
 
@@ -16,8 +17,9 @@ Routes.use("/user", UserRoutes);
 Routes.use("/document", DocumentRoutes);
 Routes.use("/vendorclient", VendorClientRoutes);
 Routes.use("/sites", SitesRoutes);
-Routes.use("/businessModel", SlabModelRoutes);
+Routes.use("/businessModel", BusinessModelRoutes);
 Routes.use("/vehicleAttachment", VehicleAttachmentRoutes);
+Routes.use("/campaign", CampaignRoutes);
 Routes.use("/auth", AuthRoutes);
 Routes.use("/driver", DriverRoutes);
 Routes.use("/aws", AWSRoutes);

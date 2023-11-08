@@ -58,6 +58,7 @@ model Vendor {
   MetaData      MetaData[]
   BusinessModel BusinessModel[]
   Driver        Driver[]
+  Campaign       Campaign[]
 }
 
 enum DriverStatus {
@@ -97,6 +98,7 @@ model Driver {
   updated_at       DateTime     @updatedAt
   Documents        Document[]
   MetaData         MetaData[]
+  DriverApplication DriverApplication[]
 }
 
 model AppConfig {
@@ -120,6 +122,7 @@ model ClientSite {
   updated_at     DateTime        @updatedAt
   BusinessModel  BusinessModel[]
   Driver         Driver[]
+  Campaign       Campaign[]
 }
 
 model MetaData {
@@ -151,4 +154,44 @@ model BusinessModel {
   clientsite_id Int
   Vendor        Vendor            @relation(fields: [vendor_id], references: [id])
   ClientSite    ClientSite        @relation(fields: [clientsite_id], references: [id])
+}
+
+enum CampaignStatus {
+  ACTIVE
+  PAUSED
+  INACTIVE
+  COMPLETED
+}
+
+model Campaign {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  status            CampaignStatus      @default(INACTIVE)
+  avgFare           Int
+  client_site_id    Int
+  ClientSite        ClientSite          @relation(fields: [client_site_id], references: [id])
+  Vendor            Vendor              @relation(fields: [vendor_id], references: [id])
+  vendor_id         Int
+  data              Json
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @updatedAt
+  DriverApplication DriverApplication[]
+}
+
+enum DriverApplicationStatus {
+  PENDING
+  HOLD
+  APPROVED
+  REJECTED
+}
+
+model DriverApplication {
+  id          Int                     @id @default(autoincrement())
+  status      DriverApplicationStatus @default(PENDING)
+  Campaign    Campaign                @relation(fields: [campaign_id], references: [id])
+  campaign_id Int
+  Driver      Driver                  @relation(fields: [driver_id], references: [id])
+  driver_id   Int
+  created_at  DateTime                @default(now())
+  updated_at  DateTime                @updatedAt
 }

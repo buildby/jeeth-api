@@ -1,0 +1,26 @@
+{
+  "loginSlot": {
+    "5:00 AM": {
+      "sedan": 12,
+      "suv": 8,
+      "mini": 2
+    },
+    "6:00 AM": {
+      "sedan": 12,
+      "suv": 8,
+      "mini": 2
+    }
+  },
+  "logoutSlot": {
+    "3:00 PM": {
+      "sedan": 12,
+      "suv": 8,
+      "mini": 2
+    },
+    "4:00 PM": {
+      "sedan": 12,
+      "suv": 8,
+      "mini": 2
+    }
+  }
+}

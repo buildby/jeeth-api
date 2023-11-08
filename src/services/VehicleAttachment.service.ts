@@ -1,19 +1,15 @@
-import { DriverStatus } from "@prisma/client";
+import { DriverStatus, Prisma } from "@prisma/client";
 import prisma from "../prisma/client";
 
 export const getAllDrivers = () =>
   prisma.driver.findMany({
     where: {
-      status: DriverStatus.ACTIVE
+      status: DriverStatus.ACTIVE,
     },
   });
 
 export const getAllNewApplication = () =>
-  prisma.driver.findMany({
-    where: {
-      status: DriverStatus.IN_ACTIVE
-    },
-  });
+  prisma.driverApplication.findMany({ include: { Driver: true } });
 
 export const getDriverById = (id: number) => {
   return prisma.driver.findFirst({
@@ -22,3 +18,8 @@ export const getDriverById = (id: number) => {
     },
   });
 };
+
+export const updateStatusOfDriver = (
+  id: number,
+  data: Prisma.DriverUpdateInput
+) => prisma.driver.update({ where: { id }, data });
