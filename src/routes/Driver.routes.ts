@@ -4,4 +4,4 @@ import * as DriverController from "../controllers/Driver.controller";
 
 export const DriverRoutes: Router = express.Router();
 
-DriverRoutes.put('/editDriverProfile', DriverController.editDriverProfile);
+DriverRoutes.put('/editDriverProfile/:id', DriverController.editDriverProfile);

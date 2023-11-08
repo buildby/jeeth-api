@@ -5,19 +5,42 @@ import * as DriverService from "../services/Driver.service";
 
 export const editDriverProfile: RequestHandler = async (req, res, next) => {
     try {
+        const { id } = req.params;
+        const { driver, owner, vehicle } = req.body;
+        let dataToUpdate: Prisma.DriverUpdateInput;
 
-        const { id, name, address, dob, gender, bankName, email, accNumber, ifscCode, avatar } = req.body;
+        if (driver) {
+            const { name, address, dob, gender, bankName, email, accNumber, ifscCode, avatar } = driver;
 
-        const dataToUpdate: Prisma.DriverUpdateInput = avatar
-            ? { avatar }
-            : { name, address, dob: new Date(dob), gender, bankName, email, accNumber, ifscCode }
 
-        const driver = await DriverService.updateDriver(+id, dataToUpdate);
+            dataToUpdate = avatar
+                ? { avatar }
+                : { name, address, dob: new Date(dob), gender, email, bankName, accNumber, ifscCode }
+
+        } else if (owner) {
+            const { ownerName, ownerPhoneNumber, ownerAddress, vehicleImage } = owner;
+
+            dataToUpdate = vehicleImage
+                ? { vehicleImage }
+                : { ownerName, ownerPhoneNumber, ownerAddress, }
+
+        } else {
+            const { vehicleType, vehicleModel, vehicleMake, vehicleYear, vehicleNumber } = vehicle;
+
+            dataToUpdate =
+                { vehicleModel, vehicleMake, vehicleType, vehicleYear, vehicleNumber }
+        }
+
+
+
+
+
+        const updatedDriver = await DriverService.updateDriver(+id, dataToUpdate);
 
         return res.status(200).json({
 
-            result: driver != null ? 'success' : 'failure',
-            data: driver,
+            result: updatedDriver != null ? 'success' : 'failure',
+            data: updatedDriver,
         });
 
     } catch (err) {

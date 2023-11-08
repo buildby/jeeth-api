@@ -2,10 +2,13 @@ import { RequestHandler } from "express";
 import * as MSG91Service from "../services/Msg91.service";
 import * as AuthService from "../services/Auth.service";
 import * as DriverService from "../services/Driver.service";
+import * as MetaDataService from "../services/metaData.service";
+
 
 import * as UserService from "../services/User.service";
-import { UserRole } from "@prisma/client";
+import { DriverStatus, UserRole } from "@prisma/client";
 import prisma from "../prisma/client";
+import { MetadataService } from "aws-sdk";
 
 export const login: RequestHandler = async (req, res, next) => {
   try {
@@ -137,9 +140,12 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
           Driver: {
             create: {
               phone: phoneNumber,
+              status: DriverStatus.IN_ACTIVE
             },
+
           },
         });
+
       }
 
       // generate accessToken

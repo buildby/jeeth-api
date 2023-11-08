@@ -41,7 +41,7 @@ export const createVendor: RequestHandler = async (req, res, next) => {
             value: req.body.promoterName,
           },
           {
-            key: MetaDataTypes.PROMOTER_Designation,
+            key: MetaDataTypes.PROMOTER_DESIGNATION,
             value: req.body.promoterDesignation,
           },
           {
@@ -85,39 +85,50 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
       city: req.body.city,
       state: req.body.state,
       pincode: req.body.pincode,
+
+      Documents: {
+        connect: [],
+      },
     };
-    if (req.body.documents) {
-      const documentsToConnect = req.body.documents.map((docId: any) => ({
-        id: docId,
-      }));
+    // if () {
+    //   const documentsToConnect = req.body.documents.map((docId: any) => ({
+    //     id: docId,
+    //   }));
 
-      const existingVendor = await VendorClientService.getVendorByVendorId(
-        +req.params.id
-      );
+    //   const existingVendor = await VendorClientService.getVendorByVendorId(
+    //     +req.params.id
+    //   );
 
-      // Check if the documents sent by the client don't match the existing documents
-      const existingDocumentIds = existingVendor!.Documents.map(
-        (doc: any) => doc.id
-      );
-      const newDocumentIds = req.body.documents;
+    //   // Check if the documents sent by the client don't match the existing documents
+    //   const existingDocumentIds = existingVendor!.Documents.map(
+    //     (doc: any) => doc.id
+    //   );
+    //   const newDocumentIds = req.body.documents;
 
-      const documentsChanged = !isEqualArrays(
-        existingDocumentIds,
-        newDocumentIds
-      );
+    //   const documentsChanged = !isEqualArrays(
+    //     existingDocumentIds,
+    //     newDocumentIds
+    //   );
 
-      if (documentsChanged) {
-        const documentsToDisconnect = existingDocumentIds.map((docId: any) => ({
-          id: docId,
-        }));
+    //   if (documentsChanged) {
+    //     const documentsToDisconnect = existingDocumentIds.map((docId: any) => ({
+    //       id: docId,
+    //     }));
 
-        updateData["Documents"] = {
-          disconnect: documentsToDisconnect,
-          connect: documentsToConnect,
-        };
+    //     updateData["Documents"] = {
+    //       disconnect: documentsToDisconnect,
+    //       connect: documentsToConnect,
+    //     };
+    //   }
+    // }
+    
+    if (updateData.Documents) {
+      for (const documentId of req.body.documents) {
+        (updateData.Documents.connect as { id: number }[]).push({
+          id: documentId,
+        });
       }
     }
-
     const metadataToUpdate = [];
     if (req.body.metadata) {
       for (const metadata of req.body.metadata) {
