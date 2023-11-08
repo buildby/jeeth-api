@@ -41,7 +41,7 @@ export const createVendor: RequestHandler = async (req, res, next) => {
             value: req.body.promoterName,
           },
           {
-            key: MetaDataTypes.PROMOTER_Designation,
+            key: MetaDataTypes.PROMOTER_DESIGNATION,
             value: req.body.promoterDesignation,
           },
           {
