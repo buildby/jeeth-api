@@ -3,6 +3,7 @@ import * as MSG91Service from "../services/Msg91.service";
 import * as AuthService from "../services/Auth.service";
 import * as DriverService from "../services/Driver.service";
 import * as MetaDataService from "../services/metaData.service";
+import * as DocumentService from "../services/Document.service";
 
 
 import * as UserService from "../services/User.service";
@@ -152,10 +153,15 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
       const token = AuthService.createAccessToken(user.id);
 
       const driver = await DriverService.getDriver(user.id);
+      let driverDocs;
+
+      if (driver) {
+        driverDocs = await DocumentService.getDocumentByDriverId(driver.id);
+      }
 
       return res.status(200).send({
         result: "success",
-        data: { user, driver },
+        data: { user, driver, driverDocs },
         token: token,
       });
     }
@@ -285,9 +291,15 @@ export const driverAutoLogin: RequestHandler = async (req, res, next) => {
       token = AuthService.createAccessToken(user.id);
     }
 
+    let driverDocs;
+
+    if (driver) {
+      driverDocs = await DocumentService.getDocumentByDriverId(driver.id);
+    }
+
     res.status(200).send({
       result: "success",
-      data: { user, driver },
+      data: { user, driver, driverDocs },
       token: token,
     });
 
