@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { CampaignStatus, Prisma } from "@prisma/client";
 import prisma from "../prisma/client";
 
 export const fetchAllCampaigns = () =>
@@ -7,6 +7,21 @@ export const fetchAllCampaigns = () =>
       ClientSite: true,
     },
   });
+
+  
+export const fetchActiveCampaigns = () =>
+prisma.campaign.findMany({
+  where: {
+    status : CampaignStatus.ACTIVE
+  }, 
+  include: {
+   ClientSite : {
+    include : {
+      BusinessModel : true
+    }
+   }
+  },
+});
 
 export const fetchCampiagnById = (id: number) =>
   prisma.campaign.findFirst({ where: { id: id } });
