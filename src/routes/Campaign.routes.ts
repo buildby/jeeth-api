@@ -7,6 +7,8 @@ CampaignRoutes.get("/", Campaign.fetchAllCampaigns);
 
 CampaignRoutes.get("/:role/:id", Campaign.fetchVendorCampaigns);
 
+CampaignRoutes.get("/fetchAllCampaignsApp", Campaign.fetchAllCampaignsApp);
+
 CampaignRoutes.post("/", Campaign.createCampaign);
 
 CampaignRoutes.post("/:id", Campaign.updateCampaign);
