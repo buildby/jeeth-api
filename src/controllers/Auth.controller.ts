@@ -141,9 +141,16 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
           Driver: {
             create: {
               phone: phoneNumber,
-              status: DriverStatus.IN_ACTIVE
+              status: DriverStatus.IN_ACTIVE,
+              MetaData: {
+                create: [
+                  {
+                    key: 'Earnings',
+                    value: JSON.stringify({ 'Accrued': 0, 'Current Month': 0 }),
+                  }
+                ]
+              }
             },
-
           },
         });
 
@@ -157,6 +164,7 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
 
       if (driver) {
         driverDocs = await DocumentService.getDocumentByDriverId(driver.id);
+
       }
 
       return res.status(200).send({
