@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import { RequestHandler } from "express";
 import prisma from "../prisma/client";
 import * as DriverService from "../services/Driver.service";
+import * as MetadataService from "../services/metaData.service";
 
 export const editDriverProfile: RequestHandler = async (req, res, next) => {
     try {
@@ -41,6 +42,24 @@ export const editDriverProfile: RequestHandler = async (req, res, next) => {
 
             result: updatedDriver != null ? 'success' : 'failure',
             data: updatedDriver,
+        });
+
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+export const refreshUserEarnings: RequestHandler = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const metaData = await MetadataService.getMetaDataByKey('Earnings', +id);
+
+        return res.status(200).json({
+
+            result: metaData != null ? 'success' : 'failure',
+            data: metaData,
         });
 
     } catch (err) {
