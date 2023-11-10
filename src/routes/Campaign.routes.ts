@@ -5,6 +5,8 @@ export const CampaignRoutes: Router = express.Router();
 
 CampaignRoutes.get("/", Campaign.fetchAllCampaigns);
 
+CampaignRoutes.get("/:role/:id", Campaign.fetchVendorCampaigns);
+
 CampaignRoutes.post("/", Campaign.createCampaign);
 
 CampaignRoutes.post("/:id", Campaign.updateCampaign);

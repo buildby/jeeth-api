@@ -8,6 +8,14 @@ export const fetchAllCampaigns = () =>
     },
   });
 
+export const fetchVendorCampaigns = (id: number) =>
+  prisma.campaign.findMany({
+    where: { vendor_id: id },
+    include: {
+      ClientSite: true,
+    },
+  });
+
 export const fetchCampiagnById = (id: number) =>
   prisma.campaign.findFirst({ where: { id: id } });
 

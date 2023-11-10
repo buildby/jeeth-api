@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import * as VehicleAttachmentService from "../services/VehicleAttachment.service";
+import { DriverStatus, Prisma } from "@prisma/client";
 
 export const getAllDriver: RequestHandler = async (req, res, next) => {
   try {
@@ -43,9 +44,19 @@ export const getDriverById: RequestHandler = async (req, res, next) => {
 
 export const updateStatusOfDriver: RequestHandler = async (req, res, next) => {
   try {
-    const data = {
+    const data: Prisma.DriverUpdateInput = {
       status: req.body.status,
     };
+    switch (req.body.status) {
+      case DriverStatus.ACTIVE:
+        data.Vendor = { connect: { id: req.body.vendorId } };
+        break;
+      case DriverStatus.IN_ACTIVE:
+        data.Vendor = { disconnect: { id: req.body.vendorId } };
+        break;
+      default:
+        break;
+    }
     await VehicleAttachmentService.updateStatusOfDriver(+req.params.id, data);
 
     return res.status(200).json({
