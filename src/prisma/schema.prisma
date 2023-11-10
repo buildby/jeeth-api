@@ -85,6 +85,7 @@ model Driver {
   vehicleMake      String?
   vehicleModel     String?
   vehicleType      String?
+  vehicleFuelType  String?
   vehicleYear      String?
   vehicleNumber    String?
   ownerName        String?
