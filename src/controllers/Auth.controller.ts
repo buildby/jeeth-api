@@ -6,7 +6,7 @@ import * as MetaDataService from "../services/metaData.service";
 import * as DocumentService from "../services/Document.service";
 
 import * as UserService from "../services/User.service";
-import { DriverStatus, UserRole } from "@prisma/client";
+import { DriverStatus, UserRole, User } from "@prisma/client";
 import prisma from "../prisma/client";
 import { MetadataService } from "aws-sdk";
 
@@ -127,10 +127,10 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
     }
 
     if (verifyOtpResponse.data.type === "success") {
-      let user = await UserService.findUserByPhone(phoneNumber);
+      let user : User | null = await UserService.findUserByPhone(phoneNumber);
 
       if (!user) {
-        user = await UserService.createUser({
+        user  = await UserService.createUser({
           phone: phoneNumber,
           role: UserRole.DRIVER,
           Driver: {
