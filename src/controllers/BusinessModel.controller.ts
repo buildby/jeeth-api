@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import * as BusinessModelService from "../services/BusinessModel.service";
+import * as SiteService from "../services/Site.service";
 import { BusinessModelType, Prisma } from "@prisma/client";
 
 export const getModels: RequestHandler = async (req, res, next) => {
@@ -44,6 +45,16 @@ export const createModel: RequestHandler = async (req, res, next) => {
 
     const model = await BusinessModelService.createModel(modelData);
 
+    const clientSite = await SiteService.getSiteById(req.body.site_id);
+
+    // Update the ClientSite's BusinessModel reference
+    if (clientSite) {
+      const dataToUpdate: Prisma.ClientSiteUpdateInput = {
+        BusinessModel: { connect: { id: model.id } },
+      };
+      await SiteService.updateSite( req.body.site_id, dataToUpdate);
+    }
+
     return res.status(201).json({
       result: "success",
       data: model,
@@ -67,6 +78,16 @@ export const updateModel: RequestHandler = async (req, res, next) => {
       +req.params.id,
       updateModelData
     );
+
+    const clientSite = await SiteService.getSiteById(req.body.site_id);
+
+    // Update the ClientSite's BusinessModel reference
+    if (clientSite) {
+      const dataToUpdate: Prisma.ClientSiteUpdateInput = {
+        BusinessModel: { connect: { id: model.id } },
+      };
+      await SiteService.updateSite( req.body.site_id, dataToUpdate);
+    }
 
     return res.status(201).json({
       result: "success",

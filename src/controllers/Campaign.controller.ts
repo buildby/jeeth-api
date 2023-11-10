@@ -15,6 +15,19 @@ export const fetchAllCampaigns: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const fetchVendorCampaigns: RequestHandler = async (req, res, next) => {
+  try {
+    const campaign = await CampaignService.fetchVendorCampaigns(+req.params.id);
+
+    return res.status(200).json({
+      result: "success",
+      data: campaign,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createCampaign: RequestHandler = async (req, res, next) => {
   try {
     const campaignData: Prisma.CampaignCreateInput = {

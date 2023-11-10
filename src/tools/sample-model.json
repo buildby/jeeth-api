@@ -85,7 +85,7 @@
     } 
   },
   "packagev2": {
-    "fixed_km" :{
+    "fixed_km" :{                                               
       "range": 1500,
       "vehicle_type": {
         "sedan": {

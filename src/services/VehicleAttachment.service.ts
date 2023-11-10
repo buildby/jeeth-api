@@ -16,6 +16,9 @@ export const getDriverById = (id: number) => {
     where: {
       id: id,
     },
+    include: {
+      Documents: true,
+    },
   });
 };
 
