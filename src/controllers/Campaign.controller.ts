@@ -84,3 +84,18 @@ export const fetchCampiagnById: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+export const fetchAllCampaignsApp: RequestHandler = async (req, res, next) => {
+  try {
+    const campaign = await CampaignService.fetchActiveCampaigns();
+
+    return res.status(200).json({
+      result: "success",
+      data: campaign,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
