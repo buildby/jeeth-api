@@ -28,6 +28,8 @@ export const createVendor: RequestHandler = async (req, res, next) => {
       phone: req.body.phone,
       pincode: req.body.pincode,
       state: req.body.state,
+      // random rating from 4.1 to 5,0
+      rating: +(Math.floor(Math.random() * 9 + 1) / 10 + 4.1).toFixed(1),
       User: {
         create: {
           phone: req.body.phone,

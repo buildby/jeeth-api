@@ -51,6 +51,7 @@ model Vendor {
   city          String
   state         String
   pincode       String
+  rating        Float
   created_at    DateTime        @default(now())
   updated_at    DateTime        @updatedAt
   Documents     Document[]
