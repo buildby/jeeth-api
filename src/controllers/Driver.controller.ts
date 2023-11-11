@@ -70,7 +70,7 @@ export const refreshUserEarnings: RequestHandler = async (req, res, next) => {
 
 export const updateDriverEarnings: RequestHandler = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { phone } = req.params;
         const { key, accrued, currentMonth } = req.body;
         let data;
 
@@ -80,7 +80,16 @@ export const updateDriverEarnings: RequestHandler = async (req, res, next) => {
             });
         }
 
-        const earningsData = await MetadataService.getDriverMetaDataByKey(key, +id);
+        const driver = await DriverService.getDriverByPhone(phone);
+
+        if (!driver) {
+            return res.status(200).json({
+                result: 'failure',
+                message: 'Driver not found',
+            });
+        }
+
+        const earningsData = await MetadataService.getDriverMetaDataByKey(key, driver.id);
 
         if (!earningsData) {
             return res.status(200).json({
@@ -98,7 +107,7 @@ export const updateDriverEarnings: RequestHandler = async (req, res, next) => {
             data['Current Month'] = currentMonth;
         }
 
-        const metaData = await MetadataService.updateMetadataByDriverId(+id, key, { value: JSON.stringify(data) });
+        const metaData = await MetadataService.updateMetadataByDriverId(driver.id, key, { value: JSON.stringify(data) });
 
         return res.status(200).json({
             result: metaData != null ? 'success' : 'failure',

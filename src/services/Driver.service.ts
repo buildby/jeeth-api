@@ -10,3 +10,6 @@ export const getDriver = (id: number) => prisma.driver.findFirst({
         MetaData: true
     }
 });
+export const getDriverByPhone = (phone: String) => prisma.driver.findFirst({
+    where: { phone: phone.toString() },
+});

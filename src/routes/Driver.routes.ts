@@ -8,4 +8,4 @@ DriverRoutes.put('/editDriverProfile/:id', DriverController.editDriverProfile);
 
 DriverRoutes.get('/refreshUserEarnings/:id', DriverController.refreshUserEarnings);
 
-DriverRoutes.put('/updateDriverEarnings/:id', DriverController.updateDriverEarnings);
+DriverRoutes.put('/updateDriverEarnings/:phone', DriverController.updateDriverEarnings);
