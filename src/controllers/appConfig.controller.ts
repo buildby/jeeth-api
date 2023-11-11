@@ -127,9 +127,6 @@ export const fetchVehicleConfigs = async (
     next: NextFunction
 ) => {
     try {
-
-
-
         // const makes = await AppConfigService.fetchAppConfig('Vehicle Makes');
         // const models = await AppConfigService.fetchAppConfig('Vehicle Models');
 

@@ -13,6 +13,18 @@ export const getModels = (type: BusinessModelType) =>
     },
   });
 
+export const fetchModelByVendor = (type: BusinessModelType, id: number) =>
+  prisma.businessModel.findMany({
+    where: { type: type, vendor_id: id },
+    select: {
+      name: true,
+      ClientSite: true,
+      id: true,
+      Vendor: true,
+      modeldata: true,
+    },
+  });
+
 export const getModelById = (id: number, type: BusinessModelType) =>
   prisma.businessModel.findFirst({ where: { id: id, type: type } });
 

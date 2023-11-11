@@ -5,6 +5,8 @@ export const SitesRoutes: Router = express.Router();
 
 SitesRoutes.get("/", SitesController.getSites);
 
+SitesRoutes.get("/:role/:id", SitesController.fetchVendorSites);
+
 SitesRoutes.post("/", SitesController.createSite);
 
 SitesRoutes.post("/:id", SitesController.updateSite);

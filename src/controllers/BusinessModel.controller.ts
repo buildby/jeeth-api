@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import * as BusinessModelService from "../services/BusinessModel.service";
+import * as SiteService from "../services/Site.service";
 import { BusinessModelType, Prisma } from "@prisma/client";
 
 export const getModels: RequestHandler = async (req, res, next) => {
@@ -32,6 +33,36 @@ export const getModels: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const fetchModelByVendor: RequestHandler = async (req, res, next) => {
+  try {
+    var type: BusinessModelType = "SLAB";
+    switch (req.params.type) {
+      case "SLAB":
+        type = BusinessModelType.SLAB;
+        break;
+
+      case "KM_FARE":
+        type = BusinessModelType.KM_FARE;
+        break;
+
+      case "PACKAGE":
+        type = BusinessModelType.PACKAGE;
+        break;
+
+      default:
+        break;
+    }
+    const models = await BusinessModelService.fetchModelByVendor(type, +req.params.id);
+
+    return res.status(200).json({
+      result: "success",
+      data: models,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createModel: RequestHandler = async (req, res, next) => {
   try {
     const modelData: Prisma.BusinessModelCreateInput = {
@@ -43,6 +74,16 @@ export const createModel: RequestHandler = async (req, res, next) => {
     };
 
     const model = await BusinessModelService.createModel(modelData);
+
+    const clientSite = await SiteService.getSiteById(req.body.site_id);
+
+    // Update the ClientSite's BusinessModel reference
+    if (clientSite) {
+      const dataToUpdate: Prisma.ClientSiteUpdateInput = {
+        BusinessModel: { connect: { id: model.id } },
+      };
+      await SiteService.updateSite(req.body.site_id, dataToUpdate);
+    }
 
     return res.status(201).json({
       result: "success",
@@ -67,6 +108,16 @@ export const updateModel: RequestHandler = async (req, res, next) => {
       +req.params.id,
       updateModelData
     );
+
+    const clientSite = await SiteService.getSiteById(req.body.site_id);
+
+    // Update the ClientSite's BusinessModel reference
+    if (clientSite) {
+      const dataToUpdate: Prisma.ClientSiteUpdateInput = {
+        BusinessModel: { connect: { id: model.id } },
+      };
+      await SiteService.updateSite(req.body.site_id, dataToUpdate);
+    }
 
     return res.status(201).json({
       result: "success",
