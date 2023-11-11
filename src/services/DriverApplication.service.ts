@@ -13,3 +13,8 @@ export const getApplicationById = (id: number) =>
       Driver: true,
     },
   });
+
+export const updateStatusOfDriver = (
+  id: number,
+  data: Prisma.DriverApplicationUpdateInput
+) => prisma.driverApplication.update({ where: { id }, data });
