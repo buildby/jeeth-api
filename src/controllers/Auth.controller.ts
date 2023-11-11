@@ -6,7 +6,7 @@ import * as MetaDataService from "../services/metaData.service";
 import * as DocumentService from "../services/Document.service";
 
 import * as UserService from "../services/User.service";
-import { DriverStatus, Prisma, User, UserRole } from "@prisma/client";
+import { DriverStatus, UserRole, User } from "@prisma/client";
 import prisma from "../prisma/client";
 
 import { MetadataService } from "aws-sdk";
@@ -138,6 +138,14 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
             create: {
               phone: phoneNumber,
               status: DriverStatus.IN_ACTIVE,
+              MetaData: {
+                create: [
+                  {
+                    key: 'Earnings',
+                    value: JSON.stringify({ 'Accrued': 0, 'Current Month': 0 }),
+                  }
+                ]
+              }
             },
           },
         });
@@ -151,6 +159,7 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
 
       if (driver) {
         driverDocs = await DocumentService.getDocumentByDriverId(driver.id);
+
       }
 
       return res.status(200).send({

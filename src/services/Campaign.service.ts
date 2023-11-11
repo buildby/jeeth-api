@@ -27,6 +27,7 @@ export const fetchActiveCampaigns = () =>
           BusinessModel: true,
         },
       },
+      Vendor: true,
     },
   });
 
