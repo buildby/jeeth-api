@@ -8,6 +8,7 @@ import * as DocumentService from "../services/Document.service";
 import * as UserService from "../services/User.service";
 import { DriverStatus, UserRole, User } from "@prisma/client";
 import prisma from "../prisma/client";
+
 import { MetadataService } from "aws-sdk";
 
 export const login: RequestHandler = async (req, res, next) => {

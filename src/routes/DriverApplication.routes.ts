@@ -6,3 +6,8 @@ export const driverApplicationRoutes: Router = express.Router();
 driverApplicationRoutes.post("/", DriverApplication.createDriverApplication);
 
 driverApplicationRoutes.get("/:id", DriverApplication.getApplicationById);
+
+driverApplicationRoutes.post(
+  "/:applicationId",
+  DriverApplication.updateStatusOfDriver
+);
