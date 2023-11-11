@@ -25,10 +25,10 @@ export const editDriverProfile: RequestHandler = async (req, res, next) => {
                 : { ownerName, ownerPhoneNumber, ownerAddress, }
 
         } else {
-            const { vehicleType, vehicleModel, vehicleMake, vehicleYear, vehicleNumber } = vehicle;
+            const { vehicleType, vehicleModel, vehicleMake, vehicleYear, vehicleNumber, vehicleFuelType } = vehicle;
 
             dataToUpdate =
-                { vehicleModel, vehicleMake, vehicleType, vehicleYear, vehicleNumber }
+                { vehicleModel, vehicleMake, vehicleType, vehicleYear, vehicleNumber, vehicleFuelType }
         }
 
 

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import * as VehicleAttachmentService from "../services/VehicleAttachment.service";
+import { DriverApplicationStatus, DriverStatus, Prisma } from "@prisma/client";
 
 export const getAllDriver: RequestHandler = async (req, res, next) => {
   try {
@@ -8,6 +9,40 @@ export const getAllDriver: RequestHandler = async (req, res, next) => {
     return res.status(200).json({
       result: "success",
       data: drivers,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const fetchVendorsDriver: RequestHandler = async (req, res, next) => {
+  try {
+    const drivers = await VehicleAttachmentService.fetchVendorsDriver(
+      +req.params.id
+    );
+
+    return res.status(200).json({
+      result: "success",
+      data: drivers,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const fetchVendorApplications: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const applications = await VehicleAttachmentService.fetchVendorApplications(
+      +req.params.id
+    );
+
+    return res.status(200).json({
+      result: "success",
+      data: applications,
     });
   } catch (err) {
     next(err);
@@ -28,9 +63,15 @@ export const getAllNewApplication: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getDriverById: RequestHandler = async (req, res, next) => {
+export const getDriverApplicationById: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
   try {
-    const driver = await VehicleAttachmentService.getDriverById(+req.params.id);
+    const driver = await VehicleAttachmentService.getDriverApplicationById(
+      +req.params.id
+    );
 
     return res.status(200).json({
       result: "success",
@@ -41,15 +82,13 @@ export const getDriverById: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const updateStatusOfDriver: RequestHandler = async (req, res, next) => {
+export const getDriverById: RequestHandler = async (req, res, next) => {
   try {
-    const data = {
-      status: req.body.status,
-    };
-    await VehicleAttachmentService.updateStatusOfDriver(+req.params.id, data);
+    const driver = await VehicleAttachmentService.getDriverById(+req.params.id);
 
     return res.status(200).json({
       result: "success",
+      data: driver,
     });
   } catch (error) {
     next(error);

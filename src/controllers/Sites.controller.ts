@@ -15,6 +15,19 @@ export const getSites: RequestHandler = async (_req, res, next) => {
   }
 };
 
+export const fetchVendorSites: RequestHandler = async (req, res, next) => {
+  try {
+    const sites = await SiteService.fetchVendorSites(+req.params.id);
+
+    return res.status(200).json({
+      result: "success",
+      data: sites,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createSite: RequestHandler = async (req, res, next) => {
   try {
     const siteData: Prisma.ClientSiteCreateInput = {
@@ -23,7 +36,7 @@ export const createSite: RequestHandler = async (req, res, next) => {
       workingDays: req.body.workingDays,
       contactNumbers: req.body.contactNumbers,
       avatar: req.body.avatar,
-      Vendor: { connect: { id: req.body.vendor_id } }
+      Vendor: { connect: { id: req.body.vendor_id } },
     };
 
     const site = await SiteService.createSite(siteData);
@@ -45,7 +58,7 @@ export const updateSite: RequestHandler = async (req, res, next) => {
       workingDays: req.body.workingDays,
       contactNumbers: req.body.contactNumbers,
       avatar: req.body.avatar,
-      Vendor: { connect: { id: req.body.vendor_id } }
+      Vendor: { connect: { id: req.body.vendor_id } },
     };
 
     const site = await SiteService.updateSite(+req.params.id, siteData);

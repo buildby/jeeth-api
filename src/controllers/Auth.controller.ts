@@ -5,10 +5,10 @@ import * as DriverService from "../services/Driver.service";
 import * as MetaDataService from "../services/metaData.service";
 import * as DocumentService from "../services/Document.service";
 
-
 import * as UserService from "../services/User.service";
-import { DriverStatus, UserRole } from "@prisma/client";
+import { DriverStatus, Prisma, User, UserRole } from "@prisma/client";
 import prisma from "../prisma/client";
+
 import { MetadataService } from "aws-sdk";
 
 export const login: RequestHandler = async (req, res, next) => {
@@ -91,12 +91,8 @@ export const resendOtp: RequestHandler = async (req, res, next) => {
 };
 
 export const verifyOtp: RequestHandler = async (req, res, next) => {
-
   try {
     const { phoneNumber, otp, countryCode = "+91" } = req.body;
-
-
-
 
     if (!phoneNumber) {
       return res.status(400).send({
@@ -132,7 +128,7 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
     }
 
     if (verifyOtpResponse.data.type === "success") {
-      let user = await UserService.findUserByPhone(phoneNumber);
+      let user: User | null = await UserService.findUserByPhone(phoneNumber);
 
       if (!user) {
         user = await UserService.createUser({
@@ -141,12 +137,10 @@ export const verifyOtp: RequestHandler = async (req, res, next) => {
           Driver: {
             create: {
               phone: phoneNumber,
-              status: DriverStatus.IN_ACTIVE
+              status: DriverStatus.IN_ACTIVE,
             },
-
           },
         });
-
       }
 
       // generate accessToken
@@ -306,7 +300,6 @@ export const driverAutoLogin: RequestHandler = async (req, res, next) => {
     return res.status(400).send({
       result: "failure",
     });
-
   } catch (error) {
     next(error);
   }

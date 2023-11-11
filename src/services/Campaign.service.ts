@@ -8,20 +8,27 @@ export const fetchAllCampaigns = () =>
     },
   });
 
-  
+export const fetchVendorCampaigns = (id: number) =>
+  prisma.campaign.findMany({
+    where: { vendor_id: id },
+    include: {
+      ClientSite: true,
+    },
+  });
+
 export const fetchActiveCampaigns = () =>
-prisma.campaign.findMany({
-  where: {
-    status : CampaignStatus.ACTIVE
-  }, 
-  include: {
-   ClientSite : {
-    include : {
-      BusinessModel : true
-    }
-   }
-  },
-});
+  prisma.campaign.findMany({
+    where: {
+      status: CampaignStatus.ACTIVE,
+    },
+    include: {
+      ClientSite: {
+        include: {
+          BusinessModel: true,
+        },
+      },
+    },
+  });
 
 export const fetchCampiagnById = (id: number) =>
   prisma.campaign.findFirst({ where: { id: id } });

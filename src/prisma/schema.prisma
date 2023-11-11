@@ -58,7 +58,7 @@ model Vendor {
   MetaData      MetaData[]
   BusinessModel BusinessModel[]
   Driver        Driver[]
-  Campaign       Campaign[]
+  Campaign      Campaign[]
 }
 
 enum DriverStatus {
@@ -67,37 +67,38 @@ enum DriverStatus {
 }
 
 model Driver {
-  id               Int          @id @default(autoincrement())
-  User             User         @relation(fields: [user_id], references: [id])
-  user_id          Int          @unique
-  status           DriverStatus
-  name             String?
-  avatar           String?
-  phone            String       @unique
-  email            String?
-  address          String?
-  gender           String?
-  bankName         String?
-  accNumber        String?
-  ifscCode         String?
-  dob              DateTime?
-  vehicleImage     String?
-  vehicleMake      String?
-  vehicleModel     String?
-  vehicleType      String?
-  vehicleYear      String?
-  vehicleNumber    String?
-  ownerName        String?
-  ownerAddress     String?
-  ownerPhoneNumber String?
-  Vendor           Vendor?      @relation(fields: [vendor_id], references: [id])
-  vendor_id        Int?
-  clientsite_id    Int?
-  ClientSite       ClientSite?  @relation(fields: [clientsite_id], references: [id])
-  created_at       DateTime     @default(now())
-  updated_at       DateTime     @updatedAt
-  Documents        Document[]
-  MetaData         MetaData[]
+  id                Int                 @id @default(autoincrement())
+  User              User                @relation(fields: [user_id], references: [id])
+  user_id           Int                 @unique
+  status            DriverStatus
+  name              String?
+  avatar            String?
+  phone             String              @unique
+  email             String?
+  address           String?
+  gender            String?
+  bankName          String?
+  accNumber         String?
+  ifscCode          String?
+  dob               DateTime?
+  vehicleImage      String?
+  vehicleMake       String?
+  vehicleModel      String?
+  vehicleType       String?
+  vehicleFuelType   String?
+  vehicleYear       String?
+  vehicleNumber     String?
+  ownerName         String?
+  ownerAddress      String?
+  ownerPhoneNumber  String?
+  Vendor            Vendor?             @relation(fields: [vendor_id], references: [id])
+  vendor_id         Int?
+  clientsite_id     Int?
+  ClientSite        ClientSite?         @relation(fields: [clientsite_id], references: [id])
+  created_at        DateTime            @default(now())
+  updated_at        DateTime            @updatedAt
+  Documents         Document[]
+  MetaData          MetaData[]
   DriverApplication DriverApplication[]
 }
 

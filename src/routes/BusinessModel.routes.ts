@@ -5,6 +5,8 @@ export const BusinessModelRoutes: Router = express.Router();
 
 BusinessModelRoutes.get("/:type", SlabModel.getModels);
 
+BusinessModelRoutes.get("/:type/:id", SlabModel.fetchModelByVendor);
+
 BusinessModelRoutes.post("/", SlabModel.createModel);
 
 BusinessModelRoutes.post("/:id", SlabModel.updateModel);
