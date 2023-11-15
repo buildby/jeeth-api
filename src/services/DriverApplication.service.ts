@@ -10,12 +10,18 @@ export const getApplicationById = (id: number) =>
     where: { driver_id: id },
     include: {
       Campaign: {
-        include : {
+        include: {
           ClientSite: true,
           Vendor: true,
         }
       }
     },
+  });
+
+export const fetchDriverApplicationById = (id: number, campaignId: number) =>
+  prisma.driverApplication.findFirst({
+    where: { driver_id: id, campaign_id: campaignId },
+
   });
 
 export const updateStatusOfDriver = (

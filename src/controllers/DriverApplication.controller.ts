@@ -42,6 +42,21 @@ export const getApplicationById: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const isAlreadyAppliedApplication: RequestHandler = async (req, res, next) => {
+  try {
+    const application = await DriverApplicationService.fetchDriverApplicationById(
+      +req.params.driverId, +req.params.campaignId
+    );
+
+    return res.status(200).json({
+      result: "success",
+      data: application,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateStatusOfDriver: RequestHandler = async (req, res, next) => {
   try {
     const data: Prisma.DriverApplicationUpdateInput = {

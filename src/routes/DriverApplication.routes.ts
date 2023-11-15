@@ -11,3 +11,8 @@ driverApplicationRoutes.post(
   "/:applicationId",
   DriverApplication.updateStatusOfDriver
 );
+
+driverApplicationRoutes.get(
+  "/:driverId/:campaignId",
+  DriverApplication.isAlreadyAppliedApplication
+);
