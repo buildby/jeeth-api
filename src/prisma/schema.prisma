@@ -197,3 +197,23 @@ model DriverApplication {
   created_at  DateTime                @default(now())
   updated_at  DateTime                @updatedAt
 }
+
+enum ContactFormType {
+  CONTACT
+  TRY_DEMO
+}
+
+model ContactForm {
+  id         Int             @id @default(autoincrement())
+  name       String
+  email      String
+  phone      String
+  company    String
+  state      String?
+  city       String?
+  message    String?
+  found_via  String?
+  form_type  ContactFormType @default(TRY_DEMO)
+  created_at DateTime        @default(now())
+  updated_at DateTime        @updatedAt
+}
