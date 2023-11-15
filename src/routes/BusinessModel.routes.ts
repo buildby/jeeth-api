@@ -13,4 +13,4 @@ BusinessModelRoutes.post("/:id", SlabModel.updateModel);
 
 BusinessModelRoutes.delete("/:id", SlabModel.deleteModel);
 
-BusinessModelRoutes.get("/:id/:type", SlabModel.getModelById);
+BusinessModelRoutes.post("/:id/:type", SlabModel.getModelById);

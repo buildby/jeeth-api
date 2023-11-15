@@ -52,7 +52,10 @@ export const fetchModelByVendor: RequestHandler = async (req, res, next) => {
       default:
         break;
     }
-    const models = await BusinessModelService.fetchModelByVendor(type, +req.params.id);
+    const models = await BusinessModelService.fetchModelByVendor(
+      type,
+      +req.params.id
+    );
 
     return res.status(200).json({
       result: "success",
@@ -142,24 +145,7 @@ export const deleteModel: RequestHandler = async (req, res, next) => {
 
 export const getModelById: RequestHandler = async (req, res, next) => {
   try {
-    var type: BusinessModelType = "SLAB";
-    switch (req.params.type) {
-      case "SLAB":
-        type = BusinessModelType.SLAB;
-        break;
-
-      case "KM_FARE":
-        type = BusinessModelType.KM_FARE;
-        break;
-
-      case "PACKAGE":
-        type = BusinessModelType.PACKAGE;
-        break;
-
-      default:
-        break;
-    }
-    const model = await BusinessModelService.getModelById(+req.params.id, type);
+    const model = await BusinessModelService.getModelById(+req.params.id);
 
     return res.status(200).json({
       result: "success",

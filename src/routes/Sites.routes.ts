@@ -14,3 +14,7 @@ SitesRoutes.post("/:id", SitesController.updateSite);
 SitesRoutes.delete("/:id", SitesController.deleteSite);
 
 SitesRoutes.get("/:id", SitesController.getSiteById);
+
+SitesRoutes.post("/fetchAllModels/models", SitesController.fetchAllModels);
+
+SitesRoutes.post("/fetchAllModels/models/:id", SitesController.fetchAllModelsByVendor);

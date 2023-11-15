@@ -55,6 +55,7 @@ export const updateSite: RequestHandler = async (req, res, next) => {
     const siteData: Prisma.ClientSiteUpdateInput = {
       name: req.body.name,
       location: req.body.location,
+      BusinessModel: { connect: { id: req.body.model } },
       workingDays: req.body.workingDays,
       contactNumbers: req.body.contactNumbers,
       avatar: req.body.avatar,
@@ -94,5 +95,35 @@ export const getSiteById: RequestHandler = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const fetchAllModels: RequestHandler = async (_req, res, next) => {
+  try {
+    const models = await SiteService.fetchAllModels();
+
+    return res.status(200).json({
+      result: "success",
+      data: models,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const fetchAllModelsByVendor: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const models = await SiteService.fetchAllModelsByVendor(+req.params.id);
+
+    return res.status(200).json({
+      result: "success",
+      data: models,
+    });
+  } catch (err) {
+    next(err);
   }
 };
