@@ -11,6 +11,7 @@ import { AppConfigRoutes } from "./appConfig.routes";
 import { VehicleAttachmentRoutes } from "./VehicleAttachment.routes";
 import { CampaignRoutes } from "./Campaign.routes";
 import { driverApplicationRoutes } from "./DriverApplication.routes";
+import { ContactFormRoutes } from "./ContactForm.route";
 
 export const Routes: Router = express.Router();
 
@@ -26,3 +27,4 @@ Routes.use("/auth", AuthRoutes);
 Routes.use("/driver", DriverRoutes);
 Routes.use("/aws", AWSRoutes);
 Routes.use("/appConfig", AppConfigRoutes);
+Routes.use("/contact-form", ContactFormRoutes);
