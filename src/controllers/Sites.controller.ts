@@ -2,9 +2,9 @@ import { RequestHandler } from "express";
 import * as SiteService from "../services/Site.service";
 import { Prisma } from "@prisma/client";
 
-export const getSites: RequestHandler = async (_req, res, next) => {
+export const getSites: RequestHandler = async (req, res, next) => {
   try {
-    const sites = await SiteService.getSites();
+    const sites = await SiteService.getSites(+req.headers["vendor-id"]!);
 
     return res.status(200).json({
       result: "success",
@@ -32,11 +32,13 @@ export const createSite: RequestHandler = async (req, res, next) => {
   try {
     const siteData: Prisma.ClientSiteCreateInput = {
       name: req.body.name,
+      address: req.body.address,
       location: req.body.location,
       workingDays: req.body.workingDays,
       contactNumbers: req.body.contactNumbers,
       avatar: req.body.avatar,
-      Vendor: { connect: { id: req.body.vendor_id } },
+      // BusinessModel: { connect: { id: req.body.model } },
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
     };
 
     const site = await SiteService.createSite(siteData);
@@ -54,11 +56,13 @@ export const updateSite: RequestHandler = async (req, res, next) => {
   try {
     const siteData: Prisma.ClientSiteUpdateInput = {
       name: req.body.name,
+      address: req.body.address,
       location: req.body.location,
+      // BusinessModel: { connect: { id: req.body.model } },
       workingDays: req.body.workingDays,
       contactNumbers: req.body.contactNumbers,
       avatar: req.body.avatar,
-      Vendor: { connect: { id: req.body.vendor_id } },
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
     };
 
     const site = await SiteService.updateSite(+req.params.id, siteData);
@@ -94,5 +98,35 @@ export const getSiteById: RequestHandler = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const fetchAllModels: RequestHandler = async (_req, res, next) => {
+  try {
+    const models = await SiteService.fetchAllModels();
+
+    return res.status(200).json({
+      result: "success",
+      data: models,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const fetchAllModelsByVendor: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const models = await SiteService.fetchAllModelsByVendor(+req.params.id);
+
+    return res.status(200).json({
+      result: "success",
+      data: models,
+    });
+  } catch (err) {
+    next(err);
   }
 };

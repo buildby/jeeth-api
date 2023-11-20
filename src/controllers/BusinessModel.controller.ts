@@ -22,7 +22,10 @@ export const getModels: RequestHandler = async (req, res, next) => {
       default:
         break;
     }
-    const models = await BusinessModelService.getModels(type);
+    const models = await BusinessModelService.getModels(
+      type,
+      +req.headers["vendor-id"]!
+    );
 
     return res.status(200).json({
       result: "success",
@@ -52,7 +55,10 @@ export const fetchModelByVendor: RequestHandler = async (req, res, next) => {
       default:
         break;
     }
-    const models = await BusinessModelService.fetchModelByVendor(type, +req.params.id);
+    const models = await BusinessModelService.fetchModelByVendor(
+      type,
+      +req.params.id
+    );
 
     return res.status(200).json({
       result: "success",
@@ -70,7 +76,7 @@ export const createModel: RequestHandler = async (req, res, next) => {
       modeldata: req.body.modeldata,
       type: req.body.type,
       ClientSite: { connect: { id: req.body.site_id } },
-      Vendor: { connect: { id: req.body.vendor_id } },
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
     };
 
     const model = await BusinessModelService.createModel(modelData);
@@ -101,7 +107,7 @@ export const updateModel: RequestHandler = async (req, res, next) => {
       modeldata: req.body.modeldata,
       type: req.body.type,
       ClientSite: { connect: { id: req.body.site_id } },
-      Vendor: { connect: { id: req.body.vendor_id } },
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
     };
 
     const model = await BusinessModelService.updateModel(
@@ -142,24 +148,7 @@ export const deleteModel: RequestHandler = async (req, res, next) => {
 
 export const getModelById: RequestHandler = async (req, res, next) => {
   try {
-    var type: BusinessModelType = "SLAB";
-    switch (req.params.type) {
-      case "SLAB":
-        type = BusinessModelType.SLAB;
-        break;
-
-      case "KM_FARE":
-        type = BusinessModelType.KM_FARE;
-        break;
-
-      case "PACKAGE":
-        type = BusinessModelType.PACKAGE;
-        break;
-
-      default:
-        break;
-    }
-    const model = await BusinessModelService.getModelById(+req.params.id, type);
+    const model = await BusinessModelService.getModelById(+req.params.id);
 
     return res.status(200).json({
       result: "success",

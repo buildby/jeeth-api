@@ -1,9 +1,9 @@
 import { BusinessModelType, Prisma } from "@prisma/client";
 import prisma from "../prisma/client";
 
-export const getModels = (type: BusinessModelType) =>
+export const getModels = (type: BusinessModelType, vendor_id: number) =>
   prisma.businessModel.findMany({
-    where: { type: type },
+    where: { type: type, vendor_id: vendor_id },
     select: {
       name: true,
       ClientSite: true,
@@ -25,8 +25,8 @@ export const fetchModelByVendor = (type: BusinessModelType, id: number) =>
     },
   });
 
-export const getModelById = (id: number, type: BusinessModelType) =>
-  prisma.businessModel.findFirst({ where: { id: id, type: type } });
+export const getModelById = (id: number) =>
+  prisma.businessModel.findFirst({ where: { id: id } });
 
 export const createModel = (data: Prisma.BusinessModelCreateInput) =>
   prisma.businessModel.create({ data: data });

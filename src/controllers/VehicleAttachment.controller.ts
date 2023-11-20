@@ -4,7 +4,9 @@ import { DriverApplicationStatus, DriverStatus, Prisma } from "@prisma/client";
 
 export const getAllDriver: RequestHandler = async (req, res, next) => {
   try {
-    const drivers = await VehicleAttachmentService.getAllDrivers();
+    const drivers = await VehicleAttachmentService.getAllDrivers(
+      +req.headers["vendor-id"]!
+    );
 
     return res.status(200).json({
       result: "success",
@@ -52,7 +54,7 @@ export const fetchVendorApplications: RequestHandler = async (
 export const getAllNewApplication: RequestHandler = async (req, res, next) => {
   try {
     const newApplications =
-      await VehicleAttachmentService.getAllNewApplication();
+      await VehicleAttachmentService.getAllNewApplication(+req.headers["vendor-id"]!);
 
     return res.status(200).json({
       result: "success",
