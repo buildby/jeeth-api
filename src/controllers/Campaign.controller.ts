@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 
 export const fetchAllCampaigns: RequestHandler = async (req, res, next) => {
   try {
-    const campaign = await CampaignService.fetchAllCampaigns();
+    const campaign = await CampaignService.fetchAllCampaigns(+req.headers["vendor-id"]!);
 
     return res.status(200).json({
       result: "success",
@@ -36,7 +36,7 @@ export const createCampaign: RequestHandler = async (req, res, next) => {
       data: req.body.data,
       avgFare: parseInt(req.body.avgFare),
       ClientSite: { connect: { id: req.body.site_id } },
-      Vendor: { connect: { id: req.body.vendor_id } },
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
       status:"ACTIVE"
     };
 
@@ -58,7 +58,7 @@ export const updateCampaign: RequestHandler = async (req, res, next) => {
       data: req.body.data,
       avgFare: req.body.avgFare,
       ClientSite: { connect: { id: req.body.site_id } },
-      Vendor: { connect: { id: req.body.vendor_id } },
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
     };
 
     const campaign = await CampaignService.updateCampaign(

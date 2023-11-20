@@ -116,6 +116,7 @@ model ClientSite {
   name           String
   location       String
   avatar         String
+  address        String
   workingDays    Json
   contactNumbers Json
   Vendor         Vendor          @relation(fields: [vendor_id], references: [id])

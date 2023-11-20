@@ -1,10 +1,11 @@
 import { DriverStatus, Prisma } from "@prisma/client";
 import prisma from "../prisma/client";
 
-export const getAllDrivers = () =>
+export const getAllDrivers = (vendor_id: number) =>
   prisma.driver.findMany({
     where: {
       status: DriverStatus.ACTIVE,
+      vendor_id: vendor_id,
     },
     include: {
       Vendor: true,
@@ -24,8 +25,13 @@ export const fetchVendorsDriver = (id: number) =>
     },
   });
 
-export const getAllNewApplication = () =>
+export const getAllNewApplication = (vendor_id: number) =>
   prisma.driverApplication.findMany({
+    where: {
+      Campaign: {
+        vendor_id: vendor_id,
+      },
+    },
     include: { Driver: { include: { ClientSite: true } }, Campaign: true },
   });
 

@@ -1,8 +1,11 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma/client";
 
-export const getSites = () =>
-  prisma.clientSite.findMany({ include: { BusinessModel: true } });
+export const getSites = (vendor_id: number) =>
+  prisma.clientSite.findMany({
+    where: { vendor_id: vendor_id },
+    include: { BusinessModel: true },
+  });
 
 export const fetchVendorSites = (id: number) =>
   prisma.clientSite.findMany({

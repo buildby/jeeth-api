@@ -55,7 +55,7 @@ export const updateStatusOfDriver: RequestHandler = async (req, res, next) => {
 
     if (application && req.body.status == DriverApplicationStatus.APPROVED) {
       const dataToUpdate: Prisma.DriverUpdateInput = {
-        Vendor: { connect: { id: req.body.vendorId } },
+        Vendor: { connect: { id: +req.headers["vendor-id"]! } },
         ClientSite: { connect: { id: req.body.siteId } },
         status: "ACTIVE",
       };
@@ -67,7 +67,7 @@ export const updateStatusOfDriver: RequestHandler = async (req, res, next) => {
         req.body.status == DriverApplicationStatus.HOLD)
     ) {
       const dataToUpdate: Prisma.DriverUpdateInput = {
-        Vendor: { disconnect: { id: req.body.vendorId } },
+        Vendor: { disconnect: { id: +req.headers["vendor-id"]! } },
         ClientSite: { disconnect: { id: req.body.siteId } },
         status: "IN_ACTIVE",
       };
