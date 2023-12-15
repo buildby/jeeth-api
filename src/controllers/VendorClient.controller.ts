@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import * as VendorClientService from "../services/VendorClient.service";
-
+import * as UserService from "../services/User.service";
 import { Prisma, UserRole } from "@prisma/client";
 import { MetaDataTypes } from "../types/MetaData.type";
 
@@ -92,38 +92,6 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
         connect: [],
       },
     };
-    // if () {
-    //   const documentsToConnect = req.body.documents.map((docId: any) => ({
-    //     id: docId,
-    //   }));
-
-    //   const existingVendor = await VendorClientService.getVendorByVendorId(
-    //     +req.params.id
-    //   );
-
-    //   // Check if the documents sent by the client don't match the existing documents
-    //   const existingDocumentIds = existingVendor!.Documents.map(
-    //     (doc: any) => doc.id
-    //   );
-    //   const newDocumentIds = req.body.documents;
-
-    //   const documentsChanged = !isEqualArrays(
-    //     existingDocumentIds,
-    //     newDocumentIds
-    //   );
-
-    //   if (documentsChanged) {
-    //     const documentsToDisconnect = existingDocumentIds.map((docId: any) => ({
-    //       id: docId,
-    //     }));
-
-    //     updateData["Documents"] = {
-    //       disconnect: documentsToDisconnect,
-    //       connect: documentsToConnect,
-    //     };
-    //   }
-    // }
-    
     if (updateData.Documents) {
       for (const documentId of req.body.documents) {
         (updateData.Documents.connect as { id: number }[]).push({
@@ -152,6 +120,13 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
       +req.params.id,
       updateData
     );
+
+    if (vendor) {
+      await UserService.updateUser(vendor.user_id, {
+        email: req.body.email,
+        phone: req.body.phone,
+      });
+    }
 
     return res.status(200).json({
       result: "success",
