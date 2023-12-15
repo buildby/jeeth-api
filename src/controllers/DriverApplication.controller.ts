@@ -10,8 +10,14 @@ export const createDriverApplication: RequestHandler = async (
 ) => {
   try {
     const applicationData: Prisma.DriverApplicationCreateInput = {
-      Campaign: { connect: { id: req.body.campaign_id } },
+      Campaign: {
+        connect: {
+          id: req.body.campaign_id,
+          // Vendor: req.body.Vendor 
+        }
+      },
       Driver: { connect: { id: req.body.driver_id } },
+
     };
 
     const application = await DriverApplicationService.createDriverApplication(
