@@ -46,7 +46,18 @@ export const sendOtp: RequestHandler = async (req, res, next) => {
       });
     }
 
-    const otpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
+    let otpResponse: any
+
+    if (phoneNumber == "8899221111" || phoneNumber == "8899331111" || phoneNumber == "8899441111") {
+      otpResponse = await MSG91Service.sendDummyOTP(phoneNumber, countryCode);
+    }
+    else {
+      otpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
+    }
+
+
+    // const otpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
+
 
     return res.status(200).send({
       result: "success",
@@ -75,11 +86,19 @@ export const resendOtp: RequestHandler = async (req, res, next) => {
       });
     }
 
-    const retryOtpResponse = await MSG91Service.resendOTP(
-      phoneNumber,
-      countryCode,
-      type
-    );
+    let retryOtpResponse: any
+
+    if (phoneNumber == "8899221111" || phoneNumber == "8899331111" || phoneNumber == "8899441111") {
+      retryOtpResponse = await MSG91Service.sendDummyOTP(phoneNumber, countryCode);
+    } else {
+      retryOtpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
+    }
+
+    // const retryOtpResponse = await MSG91Service.resendOTP(
+    //   phoneNumber,
+    //   countryCode,
+    //   type
+    // );
 
     return res.status(200).send({
       result: "success",
