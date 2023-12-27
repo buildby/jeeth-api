@@ -10,8 +10,14 @@ export const createDriverApplication: RequestHandler = async (
 ) => {
   try {
     const applicationData: Prisma.DriverApplicationCreateInput = {
-      Campaign: { connect: { id: req.body.campaign_id } },
+      Campaign: {
+        connect: {
+          id: req.body.campaign_id,
+          // Vendor: req.body.Vendor 
+        }
+      },
       Driver: { connect: { id: req.body.driver_id } },
+
     };
 
     const application = await DriverApplicationService.createDriverApplication(
@@ -31,6 +37,21 @@ export const getApplicationById: RequestHandler = async (req, res, next) => {
   try {
     const application = await DriverApplicationService.getApplicationById(
       +req.params.id
+    );
+
+    return res.status(200).json({
+      result: "success",
+      data: application,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const isAlreadyAppliedApplication: RequestHandler = async (req, res, next) => {
+  try {
+    const application = await DriverApplicationService.fetchDriverApplicationById(
+      +req.params.driverId, +req.params.campaignId
     );
 
     return res.status(200).json({
