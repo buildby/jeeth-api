@@ -58,11 +58,12 @@ export const sendOtp: RequestHandler = async (req, res, next) => {
 
     // const otpResponse = await MSG91Service.sendOTP(phoneNumber, countryCode);
 
-
-    return res.status(200).send({
-      result: "success",
-      data: otpResponse.data,
-    });
+    if (process.env.NODE_ENV !== "production") {
+      return res.status(200).send({
+        result: "success",
+        data: otpResponse.data,
+      });
+    }
   } catch (error) {
     next(error);
   }
