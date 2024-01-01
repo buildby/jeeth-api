@@ -52,6 +52,7 @@ model Vendor {
   state         String
   pincode       String
   rating        Float?
+  ageOfCompany  Int?
   created_at    DateTime        @default(now())
   updated_at    DateTime        @updatedAt
   Documents     Document[]
