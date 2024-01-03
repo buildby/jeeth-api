@@ -2,15 +2,15 @@ import moment from "moment";
 import awsSDK from "aws-sdk";
 
 const S3 = new awsSDK.S3({
-    signatureVersion: "v4",
-    accessKeyId: process.env.ACCESSKEY!,
-    secretAccessKey: process.env.SECRETKEY!,
-    region: process.env.REGION,
-    apiVersion: "2006-03-01",
-  });
-  
+  signatureVersion: "v4",
+  accessKeyId: process.env.ACCESSKEY!,
+  secretAccessKey: process.env.SECRETKEY!,
+  region: process.env.REGION,
+  apiVersion: "2006-03-01",
+});
 
-export const getSignedUrl = async (fileName: string) => {
+
+export const getSignedUrl = async (fileName: string, contentType: string) => {
   // const fileNamePrefix = uuid();
   // const extension = extractExtention(fileName);
   return await S3.getSignedUrlPromise("putObject", {
@@ -18,6 +18,7 @@ export const getSignedUrl = async (fileName: string) => {
     Key: `${getLocaiton()}/${fileName}`,
     // ACL: "public-read",
     Expires: 6000 * 5,
+    ContentType: contentType
   });
 };
 function getLocaiton(): string {
