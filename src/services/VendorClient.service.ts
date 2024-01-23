@@ -32,6 +32,8 @@ export const getVendorByVendorId = (id: number) => {
       Documents: true,
       MetaData: true,
       avatar: true,
+      rating:true,
+      ageOfCompany:true
     },
   });
 };

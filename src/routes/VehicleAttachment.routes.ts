@@ -22,6 +22,8 @@ VehicleAttachmentRoutes.get(
 
 VehicleAttachmentRoutes.get("/:id", VehicleAttachment.getDriverById);
 
+VehicleAttachmentRoutes.delete("/:id", VehicleAttachment.deleteDriverById);
+
 VehicleAttachmentRoutes.get(
   "/newApplication/:id",
   VehicleAttachment.getDriverApplicationById

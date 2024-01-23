@@ -69,3 +69,6 @@ export const getDriverById = (id: number) => {
     },
   });
 };
+
+export const deleteDriverById = (id: number) =>
+  prisma.driver.delete({ where: { id } });

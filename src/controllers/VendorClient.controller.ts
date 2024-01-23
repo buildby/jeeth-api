@@ -29,7 +29,8 @@ export const createVendor: RequestHandler = async (req, res, next) => {
       pincode: req.body.pincode,
       state: req.body.state,
       // random rating from 4.1 to 5,0
-      rating: +(Math.floor(Math.random() * 9 + 1) / 10 + 4.1).toFixed(1),
+      rating: req.body.rating,
+      ageOfCompany: req.body.ageOfCompany,
       User: {
         create: {
           phone: req.body.phone,
@@ -87,7 +88,8 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
       city: req.body.city,
       state: req.body.state,
       pincode: req.body.pincode,
-
+      rating: req.body.rating,
+      ageOfCompany: req.body.ageOfCompany,
       Documents: {
         connect: [],
       },
