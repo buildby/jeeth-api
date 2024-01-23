@@ -12,6 +12,7 @@ import { VehicleAttachmentRoutes } from "./VehicleAttachment.routes";
 import { CampaignRoutes } from "./Campaign.routes";
 import { driverApplicationRoutes } from "./DriverApplication.routes";
 import { ContactFormRoutes } from "./ContactForm.route";
+import { EarningsRoutes } from "./Earning.routes";
 
 export const Routes: Router = express.Router();
 
@@ -28,3 +29,4 @@ Routes.use("/driver", DriverRoutes);
 Routes.use("/aws", AWSRoutes);
 Routes.use("/appConfig", AppConfigRoutes);
 Routes.use("/contact-form", ContactFormRoutes);
+Routes.use("/earning", EarningsRoutes);

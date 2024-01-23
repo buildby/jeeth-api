@@ -104,6 +104,28 @@ model Driver {
   DriverApplication DriverApplication[]
 }
 
+model Earning {
+  id                Int         @id @default(autoincrement())
+  phone             String
+  vehicleNumber     String?
+  tripId            String
+  tripDate          DateTime
+  clientsite_id     Int?
+  ClientSite        ClientSite? @relation(fields: [clientsite_id], references: [id])
+  distanceTravelled Int
+  escort            Boolean
+  dropLocation      String
+  tripType          String
+  eta               String
+  ota               String
+  etd               String
+  otd               String
+  shiftTime         String
+  packageFare       Int
+  created_at        DateTime    @default(now())
+  headCount         Int
+}
+
 model AppConfig {
   id         Int      @id @default(autoincrement())
   type       String
@@ -126,6 +148,7 @@ model ClientSite {
   updated_at     DateTime        @updatedAt
   BusinessModel  BusinessModel[]
   Driver         Driver[]
+  Earning        Earning[]
   Campaign       Campaign[]
 }
 
