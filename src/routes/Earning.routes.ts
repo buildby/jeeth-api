@@ -4,6 +4,11 @@ import { verifyToken } from "../middleware/verifyToken";
 
 export const EarningsRoutes: Router = express.Router();
 
+EarningsRoutes.post(
+  "/fetchPastWeekEarning",
+  EarningsController.fetchPastWeekEarning
+);
+
 EarningsRoutes.post("/", verifyToken, EarningsController.uploadEarnings);
 
-EarningsRoutes.get("/" , EarningsController.fetchPastWeekEarning);
+EarningsRoutes.post("/fetchAllEarnings", EarningsController.fetchAllEarnings);

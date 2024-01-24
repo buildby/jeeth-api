@@ -67,7 +67,7 @@ export const uploadEarnings: RequestHandler = async (req, res, next) => {
 
 export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
   try {
-    const { phone } = req.params;
+    const { phone } = req.body;
     const today = new Date();
     const lastWeekStart = new Date(today);
     lastWeekStart.setDate(today.getDate() - 7);
@@ -96,7 +96,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
         );
         return date === earningDate.toLocaleDateString("en-US");
       });
-    
+
       return {
         date: date,
         earning: matchingEarning || 0,
@@ -104,6 +104,21 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
     });
 
     res.json({ result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const fetchAllEarnings: RequestHandler = async (req, res, next) => {
+  try {
+    const { phone } = req.body;
+
+    const earnings = await EarningService.fetchAllEarnings(phone);
+
+    return res.status(200).json({
+      result: "success",
+      data: earnings,
+    });
   } catch (error) {
     next(error);
   }
