@@ -25,3 +25,8 @@ export const fetchPastWeekEarning = (
       },
     },
   });
+
+export const fetchAllEarnings = (phone: any) =>
+  prisma.earning.findMany({
+    where: { phone: phone },
+  });
