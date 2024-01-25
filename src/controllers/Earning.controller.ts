@@ -100,7 +100,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           ) {
             let earningDate = new Date(
               earning.tripDate.getTime() -
-                earning.tripDate.getTimezoneOffset() * 60000
+              earning.tripDate.getTimezoneOffset() * 60000
             );
             if (date === earningDate.toLocaleDateString("en-US")) {
               matchingEarning = earning;
@@ -111,7 +111,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           ) {
             let earningDate = new Date(
               earning.tripDate.getTime() -
-                earning.tripDate.getTimezoneOffset() * 60000
+              earning.tripDate.getTimezoneOffset() * 60000
             );
             if (date === earningDate.toLocaleDateString("en-US")) {
               matchingEarning = earning;
@@ -119,7 +119,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           } else if (!matchingEarning) {
             let earningDate = new Date(
               earning.tripDate.getTime() -
-                earning.tripDate.getTimezoneOffset() * 60000
+              earning.tripDate.getTimezoneOffset() * 60000
             );
             if (date === earningDate.toLocaleDateString("en-US")) {
               matchingEarning = earning;
@@ -171,11 +171,13 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
     );
 
     res.json({
-      performance: {
-        ota: calculateOta(ota, pastWeekEarnings),
-        otd: calculateOtd(otd, pastWeekEarnings),
-      },
-      earnings: result,
+      result: {
+        performance: {
+          ota: calculateOta(ota, pastWeekEarnings),
+          otd: calculateOtd(otd, pastWeekEarnings),
+        },
+        earnings: result,
+      }
     });
   } catch (error) {
     next(error);
