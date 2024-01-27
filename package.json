@@ -17,7 +17,8 @@
     "test": "jest -i --verbose",
     "test:coverage": "jest --coverage --verbose",
     "test:integration": "jest -i --verbose -c jest.integration.config.js",
-    "studio": "prisma studio --browser none"
+    "studio": "prisma studio --browser none",
+    "upload": "scp -r dist jeeth-api:/home/ubuntu/jeeth-api"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma",
