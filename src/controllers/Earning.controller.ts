@@ -99,8 +99,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
               earning.tripDate.getTimezoneOffset() * 60000
           );
           return date === earningDate.toLocaleDateString("en-US");
-        });
-
+          
         let totalEarningAmount = 0;
 
         matchingEarnings.forEach((matchingEarning) => {
@@ -144,11 +143,13 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
     );
 
     res.json({
-      performance: {
-        ota: calculateOta(ota, pastWeekEarnings),
-        otd: calculateOtd(otd, pastWeekEarnings),
-      },
-      earnings: result,
+      result: {
+        performance: {
+          ota: calculateOta(ota, pastWeekEarnings),
+          otd: calculateOtd(otd, pastWeekEarnings),
+        },
+        earnings: result,
+      }
     });
   } catch (error) {
     next(error);

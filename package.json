@@ -11,12 +11,14 @@
     "build:dev": "tsc --watch --preserveWatchOutput --noEmit",
     "dev": "nodemon -r dotenv/config src/index.ts",
     "prepare": "husky install",
-    "prestart": "prisma generate && npm run build",
+    "prestart": "npm run build",
+    "prebuild": "prisma generate",
     "start": "node -r dotenv/config dist/index.js",
     "test": "jest -i --verbose",
     "test:coverage": "jest --coverage --verbose",
     "test:integration": "jest -i --verbose -c jest.integration.config.js",
-    "studio": "prisma studio --browser none"
+    "studio": "prisma studio --browser none",
+    "upload": "npm run build && scp -r dist jeeth-api:/home/ubuntu/jeeth-api"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma",
@@ -36,7 +38,7 @@
     "jest-mock-extended": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
-    "prisma": "^5.4.2",
+    "prisma": "^5.6.0",
     "swagger-ui-express": "^5.0.0",
     "yamljs": "^0.3.0"
   },

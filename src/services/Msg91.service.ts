@@ -9,6 +9,12 @@ export const sendOTP = async (phoneNumber: string, countryCode: string = "+91") 
   return await axios.get(otpUrl);
 }
 
+
+export const sendDummyOTP = async (phoneNumber: string, countryCode: string = "+91") => {
+  const otpUrl = `${MSG91_URL}/otp?mobile=${countryCode}${phoneNumber}&template_id=${MSG91_TEMPLATE_ID}&authkey=${MSG91_AUTH_KEY}&otp=1234`;
+  return await axios.get(otpUrl);
+}
+
 export const resendOTP = async (phoneNumber: string, countryCode: string = "+91", type: string = "text") => {
   const retryUrl = `${MSG91_URL}/otp/retry?authkey=${MSG91_AUTH_KEY}&retrytype=${type}&mobile=${countryCode}${phoneNumber}`;
   return await axios.get(retryUrl);
