@@ -98,7 +98,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
             earning.tripDate.getTime() -
               earning.tripDate.getTimezoneOffset() * 60000
           );
-          return date === earningDate.toLocaleDateString("en-US");
+          return date == earningDate.toLocaleDateString("en-US");
         });
 
         let totalEarningAmount = 0;
