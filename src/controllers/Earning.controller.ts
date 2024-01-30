@@ -99,47 +99,47 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
               earning.tripDate.getTimezoneOffset() * 60000
           );
           return date === earningDate.toLocaleDateString("en-US");
-
-          let totalEarningAmount = 0;
-
-          matchingEarnings.forEach((matchingEarning) => {
-            let etaDate = new Date(matchingEarning.eta);
-            let otaDate = new Date(matchingEarning.ota);
-
-            let etdDate = new Date(matchingEarning.etd);
-            let otdDate = new Date(matchingEarning.otd);
-
-            if (etaDate > otaDate) {
-              ota.push(matchingEarning);
-            }
-
-            if (etdDate > otdDate) {
-              otd.push(matchingEarning);
-            }
-
-            const pricing = findPricing(
-              matchingEarning.packageFare,
-              matchingEarning.ClientSite?.BusinessModel[0].modeldata,
-              matchingEarning.ClientSite?.BusinessModel[0].type,
-              driver?.vehicleType,
-              matchingEarning.distanceTravelled,
-              driver?.vehicleFuelType
-            );
-
-            const earningAmount = calculateEarning(
-              pricing,
-              matchingEarning,
-              matchingEarning.ClientSite?.BusinessModel[0].type
-            );
-
-            totalEarningAmount += parseFloat(earningAmount);
-          });
-
-          return {
-            date: date,
-            earning: totalEarningAmount.toFixed(2),
-          };
         });
+
+        let totalEarningAmount = 0;
+
+        matchingEarnings.forEach((matchingEarning) => {
+          let etaDate = new Date(matchingEarning.eta);
+          let otaDate = new Date(matchingEarning.ota);
+
+          let etdDate = new Date(matchingEarning.etd);
+          let otdDate = new Date(matchingEarning.otd);
+
+          if (etaDate > otaDate) {
+            ota.push(matchingEarning);
+          }
+
+          if (etdDate > otdDate) {
+            otd.push(matchingEarning);
+          }
+
+          const pricing = findPricing(
+            matchingEarning.packageFare,
+            matchingEarning.ClientSite?.BusinessModel[0].modeldata,
+            matchingEarning.ClientSite?.BusinessModel[0].type,
+            driver?.vehicleType,
+            matchingEarning.distanceTravelled,
+            driver?.vehicleFuelType
+          );
+
+          const earningAmount = calculateEarning(
+            pricing,
+            matchingEarning,
+            matchingEarning.ClientSite?.BusinessModel[0].type
+          );
+
+          totalEarningAmount += parseFloat(earningAmount);
+        });
+
+        return {
+          date: date,
+          earning: totalEarningAmount.toFixed(2),
+        };
       })
     );
 
