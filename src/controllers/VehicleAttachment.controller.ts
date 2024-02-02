@@ -99,7 +99,8 @@ export const getDriverById: RequestHandler = async (req, res, next) => {
 
 export const deleteDriverById: RequestHandler = async (req, res, next) => {
   try {
-    await VehicleAttachmentService.deleteDriverById(+req.params.id);
+    let data = { isActive: false, isDeleted: true };
+    await VehicleAttachmentService.deleteDriverById(+req.params.id,data);
     return res.status(200).json({
       result: "success",
       data: { message: "Vendor deleted successfully" },

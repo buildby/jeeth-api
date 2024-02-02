@@ -78,7 +78,8 @@ export const updateSite: RequestHandler = async (req, res, next) => {
 
 export const deleteSite: RequestHandler = async (req, res, next) => {
   try {
-    await SiteService.deleteSite(+req.params.id);
+    let data = { isActive: false, isDeleted: true };
+    await SiteService.deleteSite(+req.params.id, data);
     return res.status(200).json({
       result: "success",
       data: { message: "Site deleted successfully" },

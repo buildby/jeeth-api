@@ -3,7 +3,7 @@ import prisma from "../prisma/client";
 
 export const getSites = (vendor_id: number) =>
   prisma.clientSite.findMany({
-    where: { vendor_id: vendor_id },
+    where: { vendor_id: vendor_id, isDeleted: false, isActive: true },
     include: { BusinessModel: true },
   });
 
@@ -25,8 +25,8 @@ export const createSite = (data: Prisma.ClientSiteCreateInput) =>
 export const updateSite = (id: number, data: Prisma.ClientSiteUpdateInput) =>
   prisma.clientSite.update({ where: { id }, data });
 
-export const deleteSite = (id: number) =>
-  prisma.clientSite.delete({ where: { id: id } });
+export const deleteSite = (id: number, data: Prisma.ClientSiteUpdateInput) =>
+  prisma.clientSite.update({ where: { id: id }, data });
 
 export const fetchAllModels = () => prisma.businessModel.findMany();
 

@@ -141,7 +141,8 @@ export const updateVendor: RequestHandler = async (req, res, next) => {
 
 export const deleteVendor: RequestHandler = async (req, res, next) => {
   try {
-    await VendorClientService.deleteVendor(+req.params.id);
+    let data = { isActive: false, isDeleted: true };
+    await VendorClientService.deleteVendor(+req.params.id, data);
     return res.status(200).json({
       result: "success",
       data: { message: "Vendor deleted successfully" },

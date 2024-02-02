@@ -26,7 +26,7 @@ export const fetchPastWeekEarning = (
     },
   });
 
-export const fetchAllEarnings = (phone: any) =>
-  prisma.earning.findMany({
-    where: { phone: phone },
-  });
+export const fetchAllEarnings = () => prisma.earning.findMany({});
+
+export const createEarningRecord = (data: Prisma.EarningUploadHistoryCreateInput) =>
+  prisma.earningUploadHistory.create({ data: data });
