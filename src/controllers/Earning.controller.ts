@@ -306,6 +306,7 @@ export const createEarningRecord: RequestHandler = async (req, res, next) => {
   try {
     const data: Prisma.EarningUploadHistoryCreateInput = {
       url: req.body.url,
+      fileName: req.body.fileName,
       Vendor: { connect: { id: +req.headers["vendor-id"]! } },
     };
 
