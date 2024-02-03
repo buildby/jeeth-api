@@ -106,7 +106,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
     const monthEarnings = await EarningService.fetchPastWeekEarning(
       phone,
       new Date(today.getFullYear(), today.getMonth(), 1),
-      new Date(today.getFullYear(), today.getMonth() + 1, 0),
+      new Date(today.getFullYear(), today.getMonth() + 1, 0)
     );
 
     monthEarnings.forEach((element: any) => {
@@ -146,11 +146,16 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           let etdDate = new Date(matchingEarning.etd);
           let otdDate = new Date(matchingEarning.otd);
 
-          if (etaDate > otaDate) {
+          const etaOtaTimeDifference =
+            (otaDate.getTime() - etaDate.getTime() ) / (1000 * 60);
+          if (etaOtaTimeDifference < 10) {
             ota.push(matchingEarning);
           }
 
-          if (etdDate > otdDate) {
+          // Check if the time difference between etdDate and otdDate is greater than 10 minutes
+          const etdOtdTimeDifference =
+            (otdDate.getTime() - etdDate.getTime()) / (1000 * 60);
+          if (etdOtdTimeDifference < 10) {
             otd.push(matchingEarning);
           }
 
@@ -305,6 +310,19 @@ export const createEarningRecord: RequestHandler = async (req, res, next) => {
     };
 
     const response = await EarningService.createEarningRecord(data);
+
+    return res.status(201).json({
+      result: "success",
+      data: response,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const fetchEarningRecords: RequestHandler = async (req, res, next) => {
+  try {
+    const response = await EarningService.fetchEarningRecords();
 
     return res.status(201).json({
       result: "success",

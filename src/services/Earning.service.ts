@@ -30,3 +30,9 @@ export const fetchAllEarnings = () => prisma.earning.findMany({});
 
 export const createEarningRecord = (data: Prisma.EarningUploadHistoryCreateInput) =>
   prisma.earningUploadHistory.create({ data: data });
+
+export const fetchEarningRecords = () => prisma.earningUploadHistory.findMany({
+  include: {
+  Vendor: true
+},});
+  

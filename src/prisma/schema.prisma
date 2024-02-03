@@ -108,7 +108,6 @@ model Driver {
   isDeleted            Boolean                @default(false)
   isActive             Boolean                @default(true)
   WithdrawTransaction  WithdrawTransaction[]
-  EarningUploadHistory EarningUploadHistory[]
 }
 
 model Earning {
@@ -154,10 +153,6 @@ model EarningUploadHistory {
   vendor_id    Int?
   created_at   DateTime    @default(now())
   updated_at   DateTime    @updatedAt
-  Driver       Driver?     @relation(fields: [driverId], references: [id])
-  driverId     Int?
-  ClientSite   ClientSite? @relation(fields: [clientSiteId], references: [id])
-  clientSiteId Int?
 }
 
 model AppConfig {
@@ -187,7 +182,6 @@ model ClientSite {
   Earning              Earning[]
   Campaign             Campaign[]
   WithdrawTransaction  WithdrawTransaction[]
-  EarningUploadHistory EarningUploadHistory[]
 }
 
 model MetaData {
