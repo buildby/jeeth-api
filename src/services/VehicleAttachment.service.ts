@@ -6,6 +6,8 @@ export const getAllDrivers = (vendor_id: number) =>
     where: {
       status: DriverStatus.ACTIVE,
       vendor_id: vendor_id,
+      isDeleted: false,
+      isActive: true,
     },
     include: {
       Vendor: true,
@@ -28,6 +30,8 @@ export const fetchVendorsDriver = (id: number) =>
 export const getAllNewApplication = (vendor_id: number) =>
   prisma.driverApplication.findMany({
     where: {
+      isDeleted: false,
+      isActive: true,
       Campaign: {
         vendor_id: vendor_id,
       },
@@ -70,5 +74,5 @@ export const getDriverById = (id: number) => {
   });
 };
 
-export const deleteDriverById = (id: number) =>
-  prisma.driver.delete({ where: { id } });
+export const deleteDriverById = (id: number, data: Prisma.DriverUpdateInput) =>
+  prisma.driver.update({ where: { id }, data });

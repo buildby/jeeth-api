@@ -11,4 +11,8 @@ EarningsRoutes.post(
 
 EarningsRoutes.post("/", verifyToken, EarningsController.uploadEarnings);
 
-EarningsRoutes.post("/fetchAllEarnings", EarningsController.fetchAllEarnings);
+EarningsRoutes.get("/fetchAllEarnings", EarningsController.fetchAllEarnings);
+
+EarningsRoutes.get("/fetchEarningRecords", EarningsController.fetchEarningRecords);
+
+EarningsRoutes.post("/createEarningRecord", verifyToken, EarningsController.createEarningRecord);

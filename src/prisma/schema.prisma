@@ -40,27 +40,30 @@ model Document {
 }
 
 model Vendor {
-  id            Int             @id @default(autoincrement())
-  User          User            @relation(fields: [user_id], references: [id])
-  user_id       Int             @unique
-  name          String
-  avatar        String?
-  email         String          @unique
-  phone         String          @unique
-  address       String
-  city          String
-  state         String
-  pincode       String
-  rating        Float?
-  ageOfCompany  Int?
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
-  Documents     Document[]
-  ClientSites   ClientSite[]
-  MetaData      MetaData[]
-  BusinessModel BusinessModel[]
-  Driver        Driver[]
-  Campaign      Campaign[]
+  id                   Int                    @id @default(autoincrement())
+  User                 User                   @relation(fields: [user_id], references: [id])
+  user_id              Int                    @unique
+  name                 String
+  avatar               String?
+  email                String                 @unique
+  phone                String                 @unique
+  address              String
+  city                 String
+  state                String
+  pincode              String
+  rating               Float?
+  isDeleted            Boolean                @default(false)
+  isActive             Boolean                @default(true)
+  ageOfCompany         Int?
+  created_at           DateTime               @default(now())
+  updated_at           DateTime               @updatedAt
+  Documents            Document[]
+  ClientSites          ClientSite[]
+  MetaData             MetaData[]
+  BusinessModel        BusinessModel[]
+  Driver               Driver[]
+  Campaign             Campaign[]
+  EarningUploadHistory EarningUploadHistory[]
 }
 
 enum DriverStatus {
@@ -69,61 +72,88 @@ enum DriverStatus {
 }
 
 model Driver {
-  id                Int                 @id @default(autoincrement())
-  User              User                @relation(fields: [user_id], references: [id])
-  user_id           Int                 @unique
-  status            DriverStatus
-  name              String?
-  avatar            String?
-  phone             String              @unique
-  email             String?
-  address           String?
-  gender            String?
-  bankName          String?
-  accNumber         String?
-  ifscCode          String?
-  dob               DateTime?
-  vehicleImage      String?
-  vehicleMake       String?
-  vehicleModel      String?
-  vehicleType       String?
-  vehicleFuelType   String?
-  vehicleYear       String?
-  vehicleNumber     String?
-  ownerName         String?
-  ownerAddress      String?
-  ownerPhoneNumber  String?
-  Vendor            Vendor?             @relation(fields: [vendor_id], references: [id])
-  vendor_id         Int?
-  clientsite_id     Int?
-  ClientSite        ClientSite?         @relation(fields: [clientsite_id], references: [id])
-  created_at        DateTime            @default(now())
-  updated_at        DateTime            @updatedAt
-  Documents         Document[]
-  MetaData          MetaData[]
-  DriverApplication DriverApplication[]
+  id                  Int                   @id @default(autoincrement())
+  User                User                  @relation(fields: [user_id], references: [id])
+  user_id             Int                   @unique
+  status              DriverStatus
+  name                String?
+  avatar              String?
+  phone               String                @unique
+  email               String?
+  address             String?
+  gender              String?
+  bankName            String?
+  accNumber           String?
+  ifscCode            String?
+  dob                 DateTime?
+  vehicleImage        String?
+  vehicleMake         String?
+  vehicleModel        String?
+  vehicleType         String?
+  vehicleFuelType     String?
+  vehicleYear         String?
+  vehicleNumber       String?
+  ownerName           String?
+  ownerAddress        String?
+  ownerPhoneNumber    String?
+  Vendor              Vendor?               @relation(fields: [vendor_id], references: [id])
+  vendor_id           Int?
+  clientsite_id       Int?
+  ClientSite          ClientSite?           @relation(fields: [clientsite_id], references: [id])
+  created_at          DateTime              @default(now())
+  updated_at          DateTime              @updatedAt
+  Documents           Document[]
+  MetaData            MetaData[]
+  DriverApplication   DriverApplication[]
+  isDeleted           Boolean               @default(false)
+  isActive            Boolean               @default(true)
+  WithdrawTransaction WithdrawTransaction[]
 }
 
 model Earning {
+  id                 Int         @id @default(autoincrement())
+  phone              String
+  vehicleNumber      String?
+  tripId             String
+  tripDate           DateTime
+  clientsite_id      Int?
+  ClientSite         ClientSite? @relation(fields: [clientsite_id], references: [id])
+  distanceTravelled  Int
+  escort             Boolean
+  dropLocation       String
+  tripType           String
+  eta                String
+  ota                String
+  etd                String
+  otd                String
+  shiftTime          String
+  packageFare        Int
+  created_at         DateTime    @default(now())
+  headCount          Int
+  earning            Int?
+  eligibleToWithdraw Int?
+}
+
+model WithdrawTransaction {
   id                Int         @id @default(autoincrement())
-  phone             String
-  vehicleNumber     String?
-  tripId            String
-  tripDate          DateTime
+  driver_id         Int?
+  Driver            Driver?     @relation(fields: [driver_id], references: [id])
   clientsite_id     Int?
   ClientSite        ClientSite? @relation(fields: [clientsite_id], references: [id])
-  distanceTravelled Int
-  escort            Boolean
-  dropLocation      String
-  tripType          String
-  eta               String
-  ota               String
-  etd               String
-  otd               String
-  shiftTime         String
-  packageFare       Int
+  withdrawalAmount  Int?
+  transactionStatus String
   created_at        DateTime    @default(now())
-  headCount         Int
+  updated_at        DateTime    @updatedAt
+}
+
+model EarningUploadHistory {
+  id         Int      @id @default(autoincrement())
+  fileName   String?
+  url        String
+  Vendor     Vendor?  @relation(fields: [vendor_id], references: [id])
+  vendor_id  Int?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model AppConfig {
@@ -135,21 +165,24 @@ model AppConfig {
 }
 
 model ClientSite {
-  id             Int             @id @default(autoincrement())
-  name           String
-  location       String
-  avatar         String
-  address        String
-  workingDays    Json
-  contactNumbers Json
-  Vendor         Vendor          @relation(fields: [vendor_id], references: [id])
-  vendor_id      Int
-  created_at     DateTime        @default(now())
-  updated_at     DateTime        @updatedAt
-  BusinessModel  BusinessModel[]
-  Driver         Driver[]
-  Earning        Earning[]
-  Campaign       Campaign[]
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  location            String
+  avatar              String
+  address             String
+  workingDays         Json
+  contactNumbers      Json
+  isDeleted           Boolean               @default(false)
+  isActive            Boolean               @default(true)
+  Vendor              Vendor                @relation(fields: [vendor_id], references: [id])
+  vendor_id           Int
+  created_at          DateTime              @default(now())
+  updated_at          DateTime              @updatedAt
+  BusinessModel       BusinessModel[]
+  Driver              Driver[]
+  Earning             Earning[]
+  Campaign            Campaign[]
+  WithdrawTransaction WithdrawTransaction[]
 }
 
 model MetaData {
@@ -221,6 +254,8 @@ model DriverApplication {
   driver_id   Int
   created_at  DateTime                @default(now())
   updated_at  DateTime                @updatedAt
+  isDeleted   Boolean                 @default(false)
+  isActive    Boolean                 @default(true)
 }
 
 enum ContactFormType {

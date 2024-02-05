@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import * as SiteService from "../services/Site.service";
 import * as EarningService from "../services/Earning.service";
 import * as DriverService from "../services/Driver.service";
 import { Prisma } from "@prisma/client";
@@ -28,6 +29,26 @@ export const uploadEarnings: RequestHandler = async (req, res, next) => {
           headCount,
         } = dataToInsert[index];
 
+        const site = await SiteService.getSiteById(clientsite_id);
+        const driver = await DriverService.getDriverByPhone(phone);
+
+        const pricing = findPricing(
+          packageFare,
+          site?.BusinessModel[0].modeldata,
+          site?.BusinessModel[0].type,
+          driver?.vehicleType,
+          distanceTravelled,
+          driver?.vehicleFuelType
+        );
+
+        const earningAmount = calculateEarning(
+          pricing,
+          dataToInsert[index],
+          site?.BusinessModel[0].type
+        );
+
+        const eligibleToWithdraw = earningAmount * 0.8;
+
         let query: any = {
           phone,
           vehicleNumber,
@@ -45,6 +66,8 @@ export const uploadEarnings: RequestHandler = async (req, res, next) => {
           shiftTime,
           packageFare,
           headCount,
+          earning: earningAmount,
+          eligibleToWithdraw: eligibleToWithdraw,
         };
 
         await EarningService.uploadEarnings({ ...query });
@@ -70,6 +93,8 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
   try {
     const { phone } = req.body;
     const today = new Date();
+    let currentMonthEarning = 0;
+    let widthDrawalAmount = 0;
     const lastWeekStart = new Date(today);
     lastWeekStart.setDate(today.getDate() - 7);
     const pastWeekEarnings = await EarningService.fetchPastWeekEarning(
@@ -77,6 +102,17 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
       lastWeekStart,
       today
     );
+
+    const monthEarnings = await EarningService.fetchPastWeekEarning(
+      phone,
+      new Date(today.getFullYear(), today.getMonth(), 1),
+      new Date(today.getFullYear(), today.getMonth() + 1, 0)
+    );
+
+    monthEarnings.forEach((element: any) => {
+      currentMonthEarning += element.earning;
+      widthDrawalAmount += element.eligibleToWithdraw;
+    });
 
     const driver = await DriverService.getDriverByPhone(phone);
 
@@ -98,7 +134,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
             earning.tripDate.getTime() -
               earning.tripDate.getTimezoneOffset() * 60000
           );
-          return date === earningDate.toLocaleDateString("en-US");
+          return date == earningDate.toLocaleDateString("en-US");
         });
 
         let totalEarningAmount = 0;
@@ -110,11 +146,16 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           let etdDate = new Date(matchingEarning.etd);
           let otdDate = new Date(matchingEarning.otd);
 
-          if (etaDate > otaDate) {
+          const etaOtaTimeDifference =
+            (otaDate.getTime() - etaDate.getTime() ) / (1000 * 60);
+          if (etaOtaTimeDifference < 10) {
             ota.push(matchingEarning);
           }
 
-          if (etdDate > otdDate) {
+          // Check if the time difference between etdDate and otdDate is greater than 10 minutes
+          const etdOtdTimeDifference =
+            (otdDate.getTime() - etdDate.getTime()) / (1000 * 60);
+          if (etdOtdTimeDifference < 10) {
             otd.push(matchingEarning);
           }
 
@@ -150,6 +191,8 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           otd: calculateOtd(otd, pastWeekEarnings),
         },
         earnings: result,
+        currentMonthEarning: currentMonthEarning,
+        widthDrawalAmount: widthDrawalAmount,
       },
     });
   } catch (error) {
@@ -248,13 +291,43 @@ function calculateEarning(earning: any, pricing: any, type: any) {
 
 export const fetchAllEarnings: RequestHandler = async (req, res, next) => {
   try {
-    const { phone } = req.body;
-
-    const earnings = await EarningService.fetchAllEarnings(phone);
+    const earnings = await EarningService.fetchAllEarnings();
 
     return res.status(200).json({
       result: "success",
       data: earnings,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createEarningRecord: RequestHandler = async (req, res, next) => {
+  try {
+    const data: Prisma.EarningUploadHistoryCreateInput = {
+      url: req.body.url,
+      fileName: req.body.fileName,
+      Vendor: { connect: { id: +req.headers["vendor-id"]! } },
+    };
+
+    const response = await EarningService.createEarningRecord(data);
+
+    return res.status(201).json({
+      result: "success",
+      data: response,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const fetchEarningRecords: RequestHandler = async (req, res, next) => {
+  try {
+    const response = await EarningService.fetchEarningRecords();
+
+    return res.status(201).json({
+      result: "success",
+      data: response,
     });
   } catch (error) {
     next(error);
