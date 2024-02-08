@@ -29,6 +29,9 @@ export const uploadEarnings: RequestHandler = async (req, res, next) => {
           headCount,
         } = dataToInsert[index];
 
+        let date = new Date(tripDate);
+        // date.setDate(date.getDate() + 1);
+
         const site = await SiteService.getSiteById(clientsite_id);
         const driver = await DriverService.getDriverByPhone(phone);
 
@@ -47,13 +50,13 @@ export const uploadEarnings: RequestHandler = async (req, res, next) => {
           site?.BusinessModel[0].type
         );
 
-        const eligibleToWithdraw = earningAmount * 0.8;
+        const eligibleToWithdraw = earningAmount * 0.7;
 
         let query: any = {
           phone,
           vehicleNumber,
           tripId,
-          tripDate,
+          tripDate: date,
           ClientSite: { connect: { id: clientsite_id } },
           distanceTravelled,
           escort,
@@ -97,6 +100,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
     let widthDrawalAmount = 0;
     const lastWeekStart = new Date(today);
     lastWeekStart.setDate(today.getDate() - 7);
+    lastWeekStart.setHours(0, 0, 0, 0)
     const pastWeekEarnings = await EarningService.fetchPastWeekEarning(
       phone,
       lastWeekStart,
@@ -147,7 +151,7 @@ export const fetchPastWeekEarning: RequestHandler = async (req, res, next) => {
           let otdDate = new Date(matchingEarning.otd);
 
           const etaOtaTimeDifference =
-            (otaDate.getTime() - etaDate.getTime() ) / (1000 * 60);
+            (otaDate.getTime() - etaDate.getTime()) / (1000 * 60);
           if (etaOtaTimeDifference < 10) {
             ota.push(matchingEarning);
           }
